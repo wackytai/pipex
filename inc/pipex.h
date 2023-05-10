@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:07:14 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/10 14:16:26 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/10 15:12:32 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ typedef struct s_fd
 
 /* main.c */
 int		main(int argc, char **argv);
+int		check_outfile(int argc, char **argv, t_fd fds);
 
 #endif
