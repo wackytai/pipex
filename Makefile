@@ -1,7 +1,6 @@
 NAME = pipex
 LIB = ./inc/pipex.h
 C_SOURCES = ./src/main.c
-OBJ = $(C_SOURCES:.c=.o)
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
 
