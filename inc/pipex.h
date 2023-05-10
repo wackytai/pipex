@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:07:14 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/10 13:13:08 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/10 14:16:26 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,13 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 
+typedef struct s_fd
+{
+	int	infile;
+	int	outfile;
+}	t_fd;
+
 /* main.c */
-int		main(void);
-void	writestr(int fd, const char *str);
+int		main(int argc, char **argv);
 
 #endif
