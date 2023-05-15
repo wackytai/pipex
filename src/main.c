@@ -6,15 +6,19 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/10 15:12:05 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/15 20:32:32 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
 
-int	main(int argc, char **argv)
+int		check_outfile(int argc, char **argv, t_fd fds);
+char	*get_paths(char **argv, char **envp);
+
+int	main(int argc, char **argv, char **envp)
 {
 	t_fd	fds;
+	char	*paths;
 
 	if (argc >= 5)
 	{
@@ -26,14 +30,24 @@ int	main(int argc, char **argv)
 			printf("infile fd: %i\n", fds.infile);
 		}
 		else
-			printf("infile access: KO\n");
-		if (!check_outfile(argc, argv, fds))
-			return (0);
+			printf("infile access: KO, go to next pipe\n");
+		if (check_outfile(argc, argv, fds) == 0)
+		{
+			printf("outfile: OK\n");
+			paths = get_paths(argv, envp);
+			if (paths != NULL)
+				printf("cmd found\n");
+		}
+		else
+		{
+			printf("outfile access: KO, exit program\n");
+			return (2);
+		}
 	}
 	else
 	{
 		printf("number of arguments is wrong\n");
-		return (0);
+		return (1);
 	}
 	return (0);
 }
@@ -50,4 +64,29 @@ int	check_outfile(int argc, char **argv, t_fd fds)
 		return (1);
 	else
 		return (0);
+}
+
+char	*get_paths(char **argv, char **envp)
+{
+	char	**path;
+	int		i;
+	int		j;
+
+	i = -1;
+	while (envp[++i] != NULL && argv)
+	{
+		if (ft_strncmp(envp[i], "PATH", 4) == 0)
+			break ;
+	}
+	path = ft_split(envp[i] + 5, ':');
+	j = -1;
+	while (path[++j] != NULL)
+		printf("path: %s\n", path[j]);
+	while (i >= 0)
+	{
+		free(path[i]);
+		i--;
+	}
+	free(path);
+	return (NULL);
 }
