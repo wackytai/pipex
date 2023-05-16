@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:07:14 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/16 13:58:28 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/16 14:21:49 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ typedef struct s_fd
 int		main(int argc, char **argv, char **envp);
 int		check_outfile(int argc, char **argv, t_fd fds);
 char	**get_paths(char **envp);
-char	*get_command(char **paths, char *cmd);
-void	fill_struct(t_cmds *cmd_holder, char **paths, char **argv);
+char	*check_command(char **paths, char *cmd);
+void	get_cmd_fullname(t_cmds *cmds, char **paths, char **argv);
 
 /* pipex_utils.c */
 void	free_array(char **array);

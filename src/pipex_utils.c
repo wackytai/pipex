@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:36:34 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/16 13:56:45 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/16 14:27:38 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	free_array(char **array)
 	int	i;
 
 	i = -1;
-	while (array[++i] != NULL)
+	while (array[++i])
 		free(array[i]);
 	free(array);
 }

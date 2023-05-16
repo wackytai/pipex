@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/16 13:58:37 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/16 14:35:02 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int		check_outfile(int argc, char **argv, t_fd fds);
 char	**get_paths(char **envp);
-char	*get_command(char **paths, char *cmd);
-void	fill_struct(t_cmds *cmd_holder, char **paths, char **argv);
+char	*check_command(char **paths, char *cmd);
+void	get_cmd_fullname(t_cmds *cmds, char **paths, char **argv);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -37,7 +37,7 @@ int	main(int argc, char **argv, char **envp)
 		if (check_outfile(argc, argv, fds) == 0)
 		{
 			paths = get_paths(envp);
-			fill_struct(cmds, paths, argv);
+			get_cmd_fullname(cmds, paths, argv);
 		}
 		else
 		{
@@ -92,23 +92,30 @@ char	**get_paths(char **envp)
 	return (path);
 }
 
-char	*get_command(char **paths, char *cmd)
+char	*check_command(char **paths, char *cmd)
 {
 	int		i;
 	char	*test;
+	int		flag;
 
 	i = -1;
+	flag = 1;
 	while (paths[++i])
 	{
 		test = ft_strjoin(paths[i], cmd);
 		if (access(test, F_OK & X_OK) == 0)
+		{
+			flag = 0;
 			break ;
+		}
 		free(test);
 	}
+	if (flag == 1)
+		return (0);
 	return (test);
 }
 
-void	fill_struct(t_cmds *cmds, char **paths, char **argv)
+void	get_cmd_fullname(t_cmds *cmds, char **paths, char **argv)
 {
 	int		i;
 	char	*test;
@@ -116,8 +123,11 @@ void	fill_struct(t_cmds *cmds, char **paths, char **argv)
 	i = -1;
 	while (++i < cmds->n)
 	{
-		test = get_command(paths, argv[i + 2]);
-		printf("cmd %i path: %s\n", (i + 1), test);
+		test = check_command(paths, argv[i + 2]);
+		if (test == 0)
+			printf("cmd not found");
+		else
+			printf("cmd %i path: %s\n", (i + 1), test);
 		free(test);
 	}
 	return ;
