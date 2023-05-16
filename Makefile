@@ -2,7 +2,7 @@ NAME = pipex
 LIB = ./inc/pipex.h
 LIBFT_DIR = ./libft_gnl
 LIBFT = ./libft_gnl/libft.a
-C_SOURCES = ./src/main.c
+C_SOURCES = ./src/main.c ./src/pipex_utils.c
 CC = @gcc
 CFLAGS = -Wall -Wextra -Werror -g
 
