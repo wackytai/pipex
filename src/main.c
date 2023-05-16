@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/16 14:35:02 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/16 14:55:10 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ int	main(int argc, char **argv, char **envp)
 			fds.infile = open(argv[1], O_RDONLY);
 			printf("infile fd: %i\n", fds.infile);
 		}
+		else if (access(argv[1], F_OK) != 0)
+			printf("zsh: no such file or directory: %s\n", argv[1]);
 		else
-			printf("infile access: KO, go to next pipe\n");
+			printf("zsh: permission denied: %s\n", argv[1]);
 		if (check_outfile(argc, argv, fds) == 0)
 		{
 			paths = get_paths(envp);
@@ -125,7 +127,7 @@ void	get_cmd_fullname(t_cmds *cmds, char **paths, char **argv)
 	{
 		test = check_command(paths, argv[i + 2]);
 		if (test == 0)
-			printf("cmd not found");
+			printf("zsh: command not found: %s\n", argv[i + 2]);
 		else
 			printf("cmd %i path: %s\n", (i + 1), test);
 		free(test);
