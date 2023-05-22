@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:07:14 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/22 13:22:43 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/22 13:36:17 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ void	get_cmd_fullname(t_cmds *cmds, char **paths, char *argv);
 
 /* pipex_utils.c */
 void	free_array(char **array);
+int		create_child(char **argv, char **paths, t_cmds cmds, int n_args);
 
 #endif
