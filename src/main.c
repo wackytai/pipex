@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/16 14:55:10 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/22 13:13:10 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,19 @@
 int		check_outfile(int argc, char **argv, t_fd fds);
 char	**get_paths(char **envp);
 char	*check_command(char **paths, char *cmd);
-void	get_cmd_fullname(t_cmds *cmds, char **paths, char **argv);
+void	get_cmd_fullname(t_cmds *cmds, char **paths, char *argv);
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_fd	fds;
 	t_cmds	*cmds;
 	char	**paths;
+	int		i;
 
+	i = -1;
 	cmds = malloc(sizeof(t_cmds));
 	if (argc >= 5)
 	{
-		cmds->n = argc - 3;
 		if (access(argv[1], R_OK) == 0)
 		{
 			fds.infile = open(argv[1], O_RDONLY);
@@ -39,7 +40,11 @@ int	main(int argc, char **argv, char **envp)
 		if (check_outfile(argc, argv, fds) == 0)
 		{
 			paths = get_paths(envp);
-			get_cmd_fullname(cmds, paths, argv);
+			while (++i < argc - 3)
+			{
+				get_cmd_fullname(cmds, paths, argv[i + 2]);
+				free_array(cmds->cmd_args);
+			}
 		}
 		else
 		{
@@ -117,20 +122,20 @@ char	*check_command(char **paths, char *cmd)
 	return (test);
 }
 
-void	get_cmd_fullname(t_cmds *cmds, char **paths, char **argv)
+void	get_cmd_fullname(t_cmds *cmds, char **paths, char *argv)
 {
-	int		i;
 	char	*test;
+	int		i;
 
 	i = -1;
-	while (++i < cmds->n)
-	{
-		test = check_command(paths, argv[i + 2]);
-		if (test == 0)
-			printf("zsh: command not found: %s\n", argv[i + 2]);
-		else
-			printf("cmd %i path: %s\n", (i + 1), test);
-		free(test);
-	}
+	cmds->cmd_args = ft_split(argv, ' ');
+	while (cmds->cmd_args[++i] != NULL)
+		printf("cmd_arg[%i]: %s\n", i, cmds->cmd_args[i]);
+	test = check_command(paths, cmds->cmd_args[0]);
+	if (test == 0)
+		printf("zsh: command not found: %s\n", argv);
+	else
+		printf("path to %s: %s\n", cmds->cmd_args[0], test);
+	free(test);
 	return ;
 }
