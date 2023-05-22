@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/22 13:13:10 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/22 13:23:03 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,10 @@ void	get_cmd_fullname(t_cmds *cmds, char **paths, char *argv)
 	if (test == 0)
 		printf("zsh: command not found: %s\n", argv);
 	else
-		printf("path to %s: %s\n", cmds->cmd_args[0], test);
+	{
+		cmds->cmd_path = test;
+		printf("path to %s: %s\n", cmds->cmd_args[0], cmds->cmd_path);
+	}
 	free(test);
 	return ;
 }
