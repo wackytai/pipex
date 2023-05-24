@@ -6,26 +6,23 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/22 13:23:03 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/24 19:18:15 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
 
-int		check_outfile(int argc, char **argv, t_fd fds);
+int		check_outfile(int argc, char **argv, t_fd *fds);
 char	**get_paths(char **envp);
 char	*check_command(char **paths, char *cmd);
-void	get_cmd_fullname(t_cmds *cmds, char **paths, char *argv);
+void	get_cmd_fullname(t_fd fds, t_cmds *cmds, char **paths, char *argv);
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_fd	fds;
-	t_cmds	*cmds;
 	char	**paths;
-	int		i;
 
-	i = -1;
-	cmds = malloc(sizeof(t_cmds));
+	fds.outfile = argc;
 	if (argc >= 5)
 	{
 		if (access(argv[1], R_OK) == 0)
@@ -37,14 +34,10 @@ int	main(int argc, char **argv, char **envp)
 			printf("zsh: no such file or directory: %s\n", argv[1]);
 		else
 			printf("zsh: permission denied: %s\n", argv[1]);
-		if (check_outfile(argc, argv, fds) == 0)
+		if (check_outfile(argc, argv, &fds) == 0)
 		{
 			paths = get_paths(envp);
-			while (++i < argc - 3)
-			{
-				get_cmd_fullname(cmds, paths, argv[i + 2]);
-				free_array(cmds->cmd_args);
-			}
+			create_child(argv, paths, fds, envp);
 		}
 		else
 		{
@@ -57,20 +50,21 @@ int	main(int argc, char **argv, char **envp)
 		printf("number of arguments is wrong: %i\n", argc);
 		return (1);
 	}
+	close(fds.infile);
+	close(fds.outfile);
 	free_array(paths);
-	free(cmds);
 	return (0);
 }
 
-int	check_outfile(int argc, char **argv, t_fd fds)
+int	check_outfile(int argc, char **argv, t_fd *fds)
 {
 	if (access(argv[argc - 1], W_OK) == 0 && access(argv[argc - 1], R_OK) == 0)
 		printf("outfile access: OK\n");
 	else
 		printf("no outfile or no access\n");
-	fds.outfile = open(argv[argc - 1], O_RDWR | O_CREAT | O_TRUNC, 0644);
-	printf("outfile fds: %i\n", fds.outfile);
-	if (fds.outfile < 0)
+	fds->outfile = open(argv[argc - 1], O_RDWR | O_CREAT | O_TRUNC, 0644);
+	printf("outfile fds: %i\n", fds->outfile);
+	if (fds->outfile < 0)
 		return (1);
 	else
 		return (0);
@@ -122,7 +116,7 @@ char	*check_command(char **paths, char *cmd)
 	return (test);
 }
 
-void	get_cmd_fullname(t_cmds *cmds, char **paths, char *argv)
+void	get_cmd_fullname(t_fd fds, t_cmds *cmds, char **paths, char *argv)
 {
 	char	*test;
 	int		i;
@@ -130,7 +124,7 @@ void	get_cmd_fullname(t_cmds *cmds, char **paths, char *argv)
 	i = -1;
 	cmds->cmd_args = ft_split(argv, ' ');
 	while (cmds->cmd_args[++i] != NULL)
-		printf("cmd_arg[%i]: %s\n", i, cmds->cmd_args[i]);
+		ft_putendl_fd(cmds->cmd_args[i], fds.outfile - fds.outfile);
 	test = check_command(paths, cmds->cmd_args[0]);
 	if (test == 0)
 		printf("zsh: command not found: %s\n", argv);
