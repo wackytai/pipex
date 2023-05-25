@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/24 19:18:15 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/25 10:59:39 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		check_outfile(int argc, char **argv, t_fd *fds);
 char	**get_paths(char **envp);
 char	*check_command(char **paths, char *cmd);
-void	get_cmd_fullname(t_fd fds, t_cmds *cmds, char **paths, char *argv);
+void	get_cmd_fullname(t_fd fds, t_cmds **cmds, char **paths, char *argv);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -116,22 +116,22 @@ char	*check_command(char **paths, char *cmd)
 	return (test);
 }
 
-void	get_cmd_fullname(t_fd fds, t_cmds *cmds, char **paths, char *argv)
+void	get_cmd_fullname(t_fd fds, t_cmds **cmds, char **paths, char *argv)
 {
 	char	*test;
 	int		i;
 
 	i = -1;
-	cmds->cmd_args = ft_split(argv, ' ');
-	while (cmds->cmd_args[++i] != NULL)
-		ft_putendl_fd(cmds->cmd_args[i], fds.outfile - fds.outfile);
-	test = check_command(paths, cmds->cmd_args[0]);
+	(*cmds)->cmd_args = ft_split(argv, ' ');
+	while ((*cmds)->cmd_args[++i] != NULL)
+		ft_putendl_fd((*cmds)->cmd_args[i], fds.outfile - fds.outfile);
+	test = check_command(paths, (*cmds)->cmd_args[0]);
 	if (test == 0)
 		printf("zsh: command not found: %s\n", argv);
 	else
 	{
-		cmds->cmd_path = test;
-		printf("path to %s: %s\n", cmds->cmd_args[0], cmds->cmd_path);
+		(*cmds)->cmd_path = test;
+		return ;
 	}
 	free(test);
 	return ;
