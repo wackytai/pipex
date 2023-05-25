@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:36:34 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/25 11:00:21 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/25 14:00:58 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	create_child(char **argv, char **paths, t_fd fds, char **envp)
 	t_cmds	*cmds;
 
 	cmds = malloc(sizeof(t_cmds));
-	get_cmd_fullname(fds, &cmds, paths, argv[2]);
+	get_cmd_fullname(&cmds, paths, argv[2]);
 	if (pipe(pipefd) < 0)
 		printf("Error: pipes failed\n");
 	pid = fork();
@@ -48,7 +48,7 @@ int	create_child(char **argv, char **paths, t_fd fds, char **envp)
 	{
 		waitpid(pid, NULL, 0);
 		free_array(cmds->cmd_args);
-		get_cmd_fullname(fds, &cmds, paths, argv[3]);
+		get_cmd_fullname(&cmds, paths, argv[3]);
 		dup2(pipefd[0], STDIN_FILENO);
 		dup2(fds.outfile, STDOUT_FILENO);
 		close(pipefd[0]);
@@ -56,7 +56,8 @@ int	create_child(char **argv, char **paths, t_fd fds, char **envp)
 		execve(cmds->cmd_path, cmds->cmd_args, envp);
 	}
 	free_array(cmds->cmd_args);
-	free(cmds->cmd_path);
+	if (cmds->cmd_path == 0)
+		free(cmds->cmd_path);
 	free(cmds);
 	return (0);
 }
