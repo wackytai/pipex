@@ -2,7 +2,8 @@ NAME = pipex
 LIB = ./inc/pipex.h
 LIBFT_DIR = ./libft_gnl
 LIBFT = ./libft_gnl/libft.a
-C_SOURCES = ./src/main.c ./src/pipex_utils.c ./src/error.c ./src/commands.c
+C_SOURCES = ./src/pipex.c ./src/pipex_utils.c ./src/error.c ./src/commands.c
+B_SOURCES = ./src/bonus/pipex_bonus.c ./src/bonus/pipex_utils_bonus.c ./src/bonus/commands_bonus.c ./src/bonus/error_bonus.c
 CC = @gcc
 CFLAGS = -Wall -Wextra -Werror -g
 
@@ -11,7 +12,9 @@ $(NAME):	$(C_SOURCES)
 			@$(MAKE) --no-print-directory -C $(LIBFT_DIR)
 			@$(CC) $(CFLAGS) $(^) -o $(@) $(LIBFT) -fsanitize=address
 
-bonus:	all
+bonus:	$(B_SOURCES)
+		@$(MAKE) --no-print-directory -C $(LIBFT_DIR)
+		@$(CC) $(CFLAGS) $(^) -o $(NAME) $(LIBFT) -fsanitize=address
 
 clean:	
 		@rm -f *.o
