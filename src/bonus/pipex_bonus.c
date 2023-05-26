@@ -6,11 +6,11 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/26 13:49:39 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/26 19:50:22 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/pipex.h"
+#include "../../inc/pipex_bonus.h"
 
 int		check_outfile(int argc, char **argv, t_fd *fds);
 

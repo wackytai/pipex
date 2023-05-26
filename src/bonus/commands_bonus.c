@@ -6,11 +6,11 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 09:44:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/26 13:48:53 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/26 19:50:00 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/pipex.h"
+#include "../../inc/pipex_bonus.h"
 
 char	**get_paths(char **envp)
 {
