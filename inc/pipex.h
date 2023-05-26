@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:07:14 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/26 09:45:11 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/26 10:09:04 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		check_outfile(int argc, char **argv, t_fd *fds);
 /* commands.c */
 char	**get_paths(char **envp);
 char	*check_command(char **paths, char *cmd);
-void	get_cmd_fullname(t_cmds **cmds, char **paths, char *argv, int flag);
+void	get_cmd_fullname(t_cmds **cmds, char **paths, char *argv);
 
 /* pipex_utils.c */
 void	free_array(char **array);
@@ -51,7 +51,7 @@ int		create_child(char **argv, char **paths, t_fd fds, char **envp);
 int		file_error(char *str);
 int		permission_error(char *str);
 int		args_error(void);
-int		command_error(char *str, int flag);
+int		command_error(char *str, t_fd fds, int flag);
 int		process_error(int flag);
 
 #endif
