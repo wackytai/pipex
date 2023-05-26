@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:07:14 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/26 10:09:04 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/26 13:28:22 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_fd
 /* main.c */
 int		main(int argc, char **argv, char **envp);
 int		check_outfile(int argc, char **argv, t_fd *fds);
+int		check_infile(char *argv, t_fd *fds);
 
 /* commands.c */
 char	**get_paths(char **envp);
@@ -45,11 +46,13 @@ void	get_cmd_fullname(t_cmds **cmds, char **paths, char *argv);
 
 /* pipex_utils.c */
 void	free_array(char **array);
-int		create_child(char **argv, char **paths, t_fd fds, char **envp);
+int		create_process(char **argv, char **paths, t_fd fds, char **envp);
+int		handle_child(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp);
+int		handle_parent(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp);
 
 /* error.c */
-int		file_error(char *str);
-int		permission_error(char *str);
+int		file_error(char *str, t_fd fds);
+int		permission_error(char *str, t_fd fds);
 int		args_error(void);
 int		command_error(char *str, t_fd fds, int flag);
 int		process_error(int flag);
