@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:22:56 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/26 13:07:01 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/26 16:06:29 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ int	args_error(void)
 	exit(0);
 }
 
-int	command_error(char *str, t_fd fds, int flag)
+int	command_error(char *str, int out, int flag)
 {
 	if (flag > 0)
-		ft_putchar_fd('0', fds.outfile);
+		ft_putchar_fd('0', out);
 	ft_putstr_fd("zsh: command not found: ", STDERR_FILENO);
 	ft_putendl_fd(str, STDERR_FILENO);
 	return (4);

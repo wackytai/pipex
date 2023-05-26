@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:36:34 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/26 13:32:01 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/26 16:05:37 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	handle_child(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp)
 	close(pipefd[0]);
 	close(pipefd[1]);
 	if (cmds->cmd_path == 0)
-		command_error(cmds->cmd_args[0], fds, 1);
+		command_error(cmds->cmd_args[0], pipefd[1], 1);
 	else
 	{
 		execve(cmds->cmd_path, cmds->cmd_args, envp);
@@ -74,7 +74,7 @@ int	handle_parent(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp)
 	close(pipefd[0]);
 	close(pipefd[1]);
 	if (cmds->cmd_path == 0)
-		command_error(cmds->cmd_args[0], fds, -1);
+		command_error(cmds->cmd_args[0], fds.outfile, -1);
 	else
 	{
 		execve(cmds->cmd_path, cmds->cmd_args, envp);
