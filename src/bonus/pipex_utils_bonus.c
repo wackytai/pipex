@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:36:34 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/31 15:16:08 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/31 15:46:40 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int	create_process(char **argv, int nb, t_fd fds, char **envp)
 {
 	int		**pipefd;
 	int		i;
-	/* pid_t	pid;
-	t_cmds	*cmds; */
+	pid_t	*pid;
+	//t_cmds	*cmds;
 
 	i = -1;
 	pipefd = (int **)malloc(sizeof(int *) * (nb + 1));
@@ -53,6 +53,13 @@ int	create_process(char **argv, int nb, t_fd fds, char **envp)
 			free_pipes(pipefd);
 			process_error(0);
 		}
+	}
+	i = -1;
+	while (++i < nb)
+	{
+		//malloc pid before
+		pid[i] = fork();
+		printf("pid[%i]: %i", i, pid[i]);
 	}
 	free_pipes(pipefd);
 	return (0);
