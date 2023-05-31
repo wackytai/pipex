@@ -26,4 +26,6 @@ fclean:	clean
 
 re:	fclean all
 
+reb: fclean bonus
+
 .PHONY: all bonus clean fclean re

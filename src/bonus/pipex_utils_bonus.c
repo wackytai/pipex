@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:36:34 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/26 19:50:16 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/31 15:16:08 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,32 +22,39 @@ void	free_array(char **array)
 	free(array);
 }
 
-int	create_process(char **argv, char **paths, t_fd fds, char **envp)
+void	free_pipes(int **array)
 {
-	pid_t	pid;
-	int		pipefd[2];
-	t_cmds	*cmds;
+	int	i;
 
-	if (pipe(pipefd) < 0)
-		process_error(0);
-	pid = fork();
-	if (pid < 0)
-		process_error(1);
-	cmds = malloc(sizeof(t_cmds));
-	get_cmd_fullname(&cmds, paths, argv[2]);
-	if (pid == 0)
-		handle_child(fds, pipefd, cmds, envp);
-	else
+	i = -1;
+	while (array[++i] != 0)
+		free(array[i]);
+	free(array);
+}
+
+int	create_process(char **argv, int nb, t_fd fds, char **envp)
+{
+	int		**pipefd;
+	int		i;
+	/* pid_t	pid;
+	t_cmds	*cmds; */
+
+	i = -1;
+	pipefd = (int **)malloc(sizeof(int *) * (nb + 1));
+	pipefd[nb] = 0;
+	printf("checked:\nargv 0: %s\tfd in: %i\tenvp 0: %s\n", argv[2], fds.infile, envp[0]);
+	while (++i < nb)
 	{
-		waitpid(pid, NULL, 0);
-		free(cmds->cmd_path);
-		free_array(cmds->cmd_args);
-		get_cmd_fullname(&cmds, paths, argv[3]);
-		handle_parent(fds, pipefd, cmds, envp);
+		pipefd[i] = malloc(sizeof(int) * 2);
+		if (pipe(pipefd[i]) < 0)
+		{
+			close(fds.infile);
+			close(fds.outfile);
+			free_pipes(pipefd);
+			process_error(0);
+		}
 	}
-	free_array(cmds->cmd_args);
-	free(cmds->cmd_path);
-	free(cmds);
+	free_pipes(pipefd);
 	return (0);
 }
 

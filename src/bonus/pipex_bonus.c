@@ -6,37 +6,29 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/31 12:46:17 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/31 14:33:49 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/pipex_bonus.h"
 
-int		check_outfile(int argc, char **argv, t_fd *fds);
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_fd	fds;
-	char	**paths;
 
-	fds.outfile = argc;
+	fds.outfile = 0;
 	if (argc >= 5)
 	{
 		check_infile(argv[1], &fds);
 		if (check_outfile(argc, argv, &fds) == 0)
-		{
-			paths = get_paths(envp);
-			create_process(argv, paths, fds, envp);
-		}
+			create_process(argv, (argc - 3), fds, envp);
 		else
-			return (2);
+			return (file_error(fds));
 	}
 	else
 		return (args_error());
 	close(fds.infile);
 	close(fds.outfile);
-	if (paths)
-		free_array(paths);
 	return (0);
 }
 
