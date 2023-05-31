@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:22:56 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/26 19:36:40 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/31 12:39:17 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 int	file_error(t_fd fds)
 {
 	perror("Error");
-	/* ft_putstr_fd("zsh: no such file or directory: ", STDERR_FILENO);
-	ft_putendl_fd(str, STDERR_FILENO); */
 	close(fds.infile);
 	close(fds.outfile);
 	exit(1);
@@ -25,8 +23,6 @@ int	file_error(t_fd fds)
 int	permission_error(t_fd fds)
 {
 	perror("Error");
-	/* ft_putstr_fd("zsh: permission denied: ", STDERR_FILENO);
-	ft_putendl_fd(str, STDERR_FILENO); */
 	close(fds.infile);
 	close(fds.outfile);
 	exit(1);
@@ -40,10 +36,9 @@ int	args_error(void)
 
 int	command_error(char *str, int out, int flag)
 {
-	if (flag > 0)
+	if (flag > 0 && *str)
 		ft_putchar_fd('0', out);
-	ft_putstr_fd("zsh: command not found: ", STDERR_FILENO);
-	ft_putendl_fd(str, STDERR_FILENO);
+	perror("Error");
 	return (4);
 }
 
