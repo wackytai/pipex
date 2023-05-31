@@ -6,21 +6,13 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:22:56 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/31 12:41:50 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/31 12:44:00 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/pipex.h"
+#include "../../inc/pipex_bonus.h"
 
 int	file_error(t_fd fds)
-{
-	perror("Error");
-	close(fds.infile);
-	close(fds.outfile);
-	exit(1);
-}
-
-int	permission_error(t_fd fds)
 {
 	perror("Error");
 	close(fds.infile);

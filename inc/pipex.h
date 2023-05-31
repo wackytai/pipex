@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:07:14 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/26 19:38:13 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/05/31 12:45:40 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int		handle_parent(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp);
 
 /* error.c */
 int		file_error(t_fd fds);
-int		permission_error(t_fd fds);
 int		args_error(void);
 int		command_error(char *str, int out, int flag);
 int		process_error(int flag);

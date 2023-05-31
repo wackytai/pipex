@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 11:23:04 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/15 15:04:49 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/31 12:48:44 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ char	*ft_strjoin_gnl(char *s1, char *s2)
 	size_t	j;
 
 	i = 0;
-	str = (char *)malloc(sizeof(char) * (ft_strlen_gnl(s1) + ft_strlen_gnl(s2) + 1));
+	str = (char *)malloc(sizeof(char) * (ft_strlen_gnl(s1)
+				+ ft_strlen_gnl(s2) + 1));
 	if (!str)
 		return (0);
 	while (s1 && s1[i])
