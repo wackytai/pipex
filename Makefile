@@ -3,7 +3,8 @@ LIB = ./inc/pipex.h
 LIBFT_DIR = ./libft_gnl
 LIBFT = ./libft_gnl/libft.a
 C_SOURCES = ./src/pipex.c ./src/pipex_utils.c ./src/error.c ./src/commands.c
-B_SOURCES = ./src/bonus/pipex_bonus.c ./src/bonus/pipex_utils_bonus.c ./src/bonus/commands_bonus.c ./src/bonus/error_bonus.c
+B_SOURCES = ./src/bonus/pipex_bonus.c ./src/bonus/pipex_utils_bonus.c ./src/bonus/commands_bonus.c \
+			./src/bonus/error_bonus.c ./src/bonus/process_utils_bonus.c
 CC = @gcc
 CFLAGS = -Wall -Wextra -Werror -g
 

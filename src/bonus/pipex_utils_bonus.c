@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:36:34 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/31 15:46:40 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/02 15:54:40 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,67 +32,66 @@ void	free_pipes(int **array)
 	free(array);
 }
 
-int	create_process(char **argv, int nb, t_fd fds, char **envp)
+int	create_process(char **argv, t_fd *fds, char **envp)
 {
-	int		**pipefd;
+	pid_t	pid;
 	int		i;
-	pid_t	*pid;
-	//t_cmds	*cmds;
 
 	i = -1;
-	pipefd = (int **)malloc(sizeof(int *) * (nb + 1));
-	pipefd[nb] = 0;
-	printf("checked:\nargv 0: %s\tfd in: %i\tenvp 0: %s\n", argv[2], fds.infile, envp[0]);
-	while (++i < nb)
+	pid = 0;
+	while (++i < fds->n_cmds - 1)
 	{
-		pipefd[i] = malloc(sizeof(int) * 2);
-		if (pipe(pipefd[i]) < 0)
+		fds->cmd = argv[i + 2];
+		pid = fork_processes(pid, fds);
+		if (pid == 0)
 		{
-			close(fds.infile);
-			close(fds.outfile);
-			free_pipes(pipefd);
-			process_error(0);
+			printf("#Child %i:\n", i);
+			handle_child(fds, i, envp);
 		}
+		waitpid(pid, NULL, 0);
 	}
-	i = -1;
-	while (++i < nb)
-	{
-		//malloc pid before
-		pid[i] = fork();
-		printf("pid[%i]: %i", i, pid[i]);
-	}
-	free_pipes(pipefd);
+	free_pipes(fds->pipefd);
 	return (0);
 }
 
-int	handle_child(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp)
+int	handle_child(t_fd *fds, int i, char **envp)
 {
-	dup2(fds.infile, STDIN_FILENO);
-	dup2(pipefd[1], STDOUT_FILENO);
-	close(pipefd[0]);
-	close(pipefd[1]);
-	if (cmds->cmd_path == 0)
-		command_error(cmds->cmd_args[0], pipefd[1], 1);
-	else
+	int		j;
+	int		out;
+	t_cmds	*cmds;
+
+	j = -1;
+	cmds = malloc(sizeof(t_cmds));
+	if (!cmds)
+		return (1);
+	get_cmd_fullname(&cmds, fds->paths, fds->cmd);
+	out = update_pipe_ends(fds, i);
+	printf("lixo: %i %i %s", out, j, envp[0]);
+	/* while (++j < (fds->n_cmds))
 	{
-		execve(cmds->cmd_path, cmds->cmd_args, envp);
-		perror("execve failed: ");
-	}
+		close(fds->pipefd[j][0]);
+		close(fds->pipefd[j][1]);
+		printf("\t#%i child: pipe %i closed\n", i, j);
+	} */
+	if (cmds->cmd_path == 0)
+		command_error(cmds, out, i, *fds);
+	printf("\tEXECV #%i\n", i);
+	execve(cmds->cmd_path, cmds->cmd_args, envp);
+	perror("\texecve failed: ");
 	return (0);
 }
 
-int	handle_parent(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp)
+int	handle_parent(t_fd *fds)
 {
-	dup2(pipefd[0], STDIN_FILENO);
-	dup2(fds.outfile, STDOUT_FILENO);
-	close(pipefd[0]);
-	close(pipefd[1]);
-	if (cmds->cmd_path == 0)
-		command_error(cmds->cmd_args[0], fds.outfile, -1);
-	else
+	int	j;
+
+	j = -1;
+	while (++j < (fds->n_cmds))
 	{
-		execve(cmds->cmd_path, cmds->cmd_args, envp);
-		perror("execve failed: ");
+		close(fds->pipefd[j][0]);
+		close(fds->pipefd[j][1]);
+		printf("#PARENT: pipe %i closed\n", j);
 	}
+	close_files(*fds);
 	return (0);
 }
