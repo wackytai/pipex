@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 08:33:49 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/02 15:49:50 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/02 20:25:27 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ pid_t	fork_processes(int pid, t_fd *fds)
 	{
 		close_files(*fds);
 		free_array(fds->paths);
-		while (++i < fds->n_cmds)
+		while (++i < fds->n_cmds - 1)
 		{
 			close(fds->pipefd[i][0]);
 			close(fds->pipefd[i][1]);
