@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:22:56 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/31 12:46:36 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/05 15:05:59 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	command_error(char *str, int out, int flag)
 {
 	if (flag > 0 && *str)
 		ft_putchar_fd('0', out);
-	perror("Error");
+	printf("pipex: command not found: %s\n", str);
 	return (4);
 }
 

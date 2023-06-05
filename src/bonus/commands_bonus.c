@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 09:44:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/05 09:14:44 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:55:25 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,31 +39,24 @@ char	*check_command(char **paths, char *cmd)
 {
 	int		i;
 	char	*test;
-	int		flag;
 
 	i = -1;
-	flag = 1;
 	while (paths[++i])
 	{
 		test = ft_strjoin(paths[i], cmd);
 		if (access(test, F_OK & X_OK) == 0)
-		{
-			flag = 0;
-			break ;
-		}
+			return (test);
 		free(test);
 	}
-	if (flag == 1)
-		return (0);
-	return (test);
+	return (0);
 }
 
-void	get_cmd_fullname(t_cmds *cmds, char **paths, char *argv)
+void	get_cmd_fullname(t_cmds *cmds, t_fd *fds, char *argv, int i)
 {
 	char	*test;
 
 	cmds->cmd_args = ft_split(argv, ' ');
-	test = check_command(paths, cmds->cmd_args[0]);
+	test = check_command(fds->paths, cmds->cmd_args[0]);
 	if (test != 0)
 	{
 		cmds->cmd_path = test;
@@ -71,5 +64,6 @@ void	get_cmd_fullname(t_cmds *cmds, char **paths, char *argv)
 	}
 	free(test);
 	cmds->cmd_path = 0;
+	command_error(cmds, STDERR_FILENO, i, *fds);
 	return ;
 }

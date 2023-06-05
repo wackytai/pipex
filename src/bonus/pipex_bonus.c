@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/05 11:30:32 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:55:59 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int argc, char **argv, char **envp)
 
 int	check_outfile(int argc, char **argv, t_fd *fds)
 {
-	if (access(argv[argc - 1], W_OK) && access(argv[argc - 1], R_OK))
+	if (!access(argv[argc - 1], W_OK) && access(argv[argc - 1], R_OK))
 		return (file_error(*fds));
 	fds->outfile = open(argv[argc - 1], O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fds->outfile < 0)

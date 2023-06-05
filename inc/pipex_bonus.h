@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:07:14 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/05 11:30:06 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/05 13:38:33 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int		create_process(char **argv, t_fd *fds, char **envp);
 /* commands_bonus.c */
 char	**get_paths(char **envp);
 char	*check_command(char **paths, char *cmd);
-void	get_cmd_fullname(t_cmds *cmds, char **paths, char *argv);
+void	get_cmd_fullname(t_cmds *cmds, t_fd *fds, char *argv, int i);
 
 /* pipex_utils_bonus.c */
 void	free_array(char **array);
