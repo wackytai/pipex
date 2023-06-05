@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:22:56 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/02 14:33:36 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/05 11:03:38 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,6 @@ int	command_error(t_cmds *cmd, int out, int flag, t_fd fds)
 	else
 		free(cmd->cmd_path);
 	close_files(fds);
-	while (fds.n_cmds-- >= 0)
-	{
-		close(fds.pipefd[fds.n_cmds][0]);
-		close(fds.pipefd[fds.n_cmds][1]);
-	}
 	perror("Error");
 	exit(1);
 }

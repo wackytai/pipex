@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 08:33:49 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/05 10:10:16 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/05 11:05:59 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,22 +64,22 @@ int	update_pipe_ends(t_fd *fds, int i)
 
 	if (i == 0)
 	{
-		printf("\tPIPE %i IN: infile\tOUT: pipefd[%i]\n", i, i);
-		if (dup2(fds->infile, STDIN_FILENO) < 0 || dup2(fds->pipefd[i][1], STDOUT_FILENO) < 0)
+		if (dup2(fds->infile, STDIN_FILENO) < 0
+			|| dup2(fds->pipefd[i][1], STDOUT_FILENO) < 0)
 			return (printf("error in dup\n"));
 		out = fds->pipefd[i][1];
 	}
 	else if (i == (fds->n_cmds - 1))
 	{
-		printf("\tPIPE %i IN: %i\tOUT: outfile\n", i, (i - 1));
-		if (dup2(fds->pipefd[i - 1][0], STDIN_FILENO) < 0 || dup2(fds->outfile, STDOUT_FILENO) < 0)
+		if (dup2(fds->pipefd[i - 1][0], STDIN_FILENO) < 0
+			|| dup2(fds->outfile, STDOUT_FILENO) < 0)
 			return (printf("error in dup\n"));
 		out = fds->outfile;
 	}
 	else
 	{
-		printf("\tPIPE %i IN: pipefd[%i]\tOUT: pipefd[%i]\n", i, (i - 1), i);
-		if (dup2(fds->pipefd[i - 1][0], STDIN_FILENO) < 0 || dup2(fds->pipefd[i][1], STDOUT_FILENO) < 0)
+		if (dup2(fds->pipefd[i - 1][0], STDIN_FILENO) < 0
+			|| dup2(fds->pipefd[i][1], STDOUT_FILENO) < 0)
 			return (printf("error in dup\n"));
 		out = fds->pipefd[i][1];
 	}
