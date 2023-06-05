@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 09:44:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/26 19:50:00 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/05 09:14:44 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,18 @@ char	*check_command(char **paths, char *cmd)
 	return (test);
 }
 
-void	get_cmd_fullname(t_cmds **cmds, char **paths, char *argv)
+void	get_cmd_fullname(t_cmds *cmds, char **paths, char *argv)
 {
 	char	*test;
 
-	(*cmds)->cmd_args = ft_split(argv, ' ');
-	test = check_command(paths, (*cmds)->cmd_args[0]);
+	cmds->cmd_args = ft_split(argv, ' ');
+	test = check_command(paths, cmds->cmd_args[0]);
 	if (test != 0)
 	{
-		(*cmds)->cmd_path = test;
+		cmds->cmd_path = test;
 		return ;
 	}
 	free(test);
-	(*cmds)->cmd_path = 0;
+	cmds->cmd_path = 0;
 	return ;
 }
