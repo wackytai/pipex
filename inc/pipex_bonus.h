@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:07:14 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/05 09:15:15 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/05 11:30:06 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_fd
 int		main(int argc, char **argv, char **envp);
 int		check_outfile(int argc, char **argv, t_fd *fds);
 int		check_infile(char *argv, t_fd *fds);
+int		create_process(char **argv, t_fd *fds, char **envp);
 
 /* commands_bonus.c */
 char	**get_paths(char **envp);
@@ -51,9 +52,8 @@ void	get_cmd_fullname(t_cmds *cmds, char **paths, char *argv);
 /* pipex_utils_bonus.c */
 void	free_array(char **array);
 void	free_pipes(int **array);
-int		create_process(char **argv, t_fd *fds, char **envp);
+void	close_pipes(t_fd *fds);
 int		handle_child(t_fd *fds, int i, char **envp);
-int		handle_parent(t_fd *fds);
 
 /* process_utils_bonus.c */
 void	create_pipes(t_fd *fds);

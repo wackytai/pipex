@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/05 10:46:12 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/05 11:30:32 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,26 @@ int	check_infile(char *argv, t_fd *fds)
 	if (access(argv, F_OK | R_OK) != 0)
 		perror("Error");
 	fds->infile = open(argv, O_RDONLY);
+	return (0);
+}
+
+int	create_process(char **argv, t_fd *fds, char **envp)
+{
+	pid_t	pid;
+	int		i;
+
+	i = -1;
+	pid = 0;
+	while (++i < fds->n_cmds)
+	{
+		if (fds->infile < 0)
+			continue ;
+		fds->cmd = argv[i + 2];
+		pid = fork_processes(pid, fds);
+		if (pid == 0)
+			handle_child(fds, i, envp);
+	}
+	close_pipes(fds);
+	free_pipes(fds->pipefd);
 	return (0);
 }
