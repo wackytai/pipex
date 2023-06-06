@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:07:14 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/06 10:08:11 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/06 14:16:08 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ typedef struct s_fd
 /* pipex_bonus.c */
 int		main(int argc, char **argv, char **envp);
 int		check_outfile(int argc, char **argv, t_fd *fds);
-int		check_infile(char *argv, t_fd *fds);
+int		check_infile(char **argv, t_fd *fds);
 int		create_process(char **argv, t_fd *fds, char **envp);
-int		here_doc(t_fd *fds, char *limiter);
+int		here_doc(int fd, char *limiter);
 
 /* commands_bonus.c */
 char	**get_paths(char **envp);
