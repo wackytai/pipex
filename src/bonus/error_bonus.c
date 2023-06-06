@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:22:56 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/05 14:55:00 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/06 09:43:02 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,12 @@ void	close_files(t_fd fds)
 {
 	close(fds.infile);
 	close(fds.outfile);
+	if (fds.ishdoc)
+	{
+		if (unlink("here_doc") != 0)
+		{
+			perror("Error");
+			exit(1);
+		}
+	}
 }
