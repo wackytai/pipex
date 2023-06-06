@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:07:14 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/06 14:16:08 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/06 14:51:00 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,6 @@ int		file_error(t_fd fds);
 int		args_error(void);
 int		command_error(t_cmds *cmd, int out, int flag, t_fd fds);
 int		process_error(int flag);
-void	close_files(t_fd fds);
+void	close_files(t_fd fds, int flag);
 
 #endif

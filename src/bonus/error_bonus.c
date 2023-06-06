@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:22:56 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/06 14:21:08 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:12:42 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	file_error(t_fd fds)
 {
-	perror("Error");
+	perror("Error0");
 	close(fds.infile);
 	close(fds.outfile);
 	exit(1);
@@ -32,7 +32,7 @@ int	command_error(t_cmds *cmd, int out, int flag, t_fd fds)
 	free_array(cmd->cmd_args);
 	if (flag >= (fds.n_cmds - 1) && out)
 		free(cmd->cmd_path);
-	close_files(fds);
+	close_files(fds, flag);
 	exit(1);
 }
 
@@ -45,16 +45,10 @@ int	process_error(int flag)
 	exit(1);
 }
 
-void	close_files(t_fd fds)
+void	close_files(t_fd fds, int flag)
 {
 	close(fds.infile);
 	close(fds.outfile);
-	if (fds.ishdoc)
-	{
-		if (unlink("here_doc") != 0)
-		{
-			perror("Error");
-			exit(1);
-		}
-	}
+	if (fds.ishdoc && flag >= (fds.n_cmds - 1))
+		unlink("here_doc");
 }

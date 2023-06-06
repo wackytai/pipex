@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/06 14:29:34 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:09:57 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(int argc, char **argv, char **envp)
 	create_process(argv, &fds, envp);
 	if (fds.paths != 0)
 		free_array(fds.paths);
-	close_files(fds);
+	close_files(fds, fds.n_cmds);
 	return (0);
 }
 
@@ -63,7 +63,7 @@ int	check_infile(char **argv, t_fd *fds)
 		close(fd_hd);
 	}
 	if (access(argv[1], F_OK | R_OK) != 0)
-		perror("Error");
+		perror("Error1");
 	fds->infile = open(argv[1], O_RDONLY);
 	return (0);
 }
