@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:22:56 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/06 15:12:42 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/08 08:44:00 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	file_error(t_fd fds)
 {
-	perror("Error0");
+	perror("Error");
 	close(fds.infile);
 	close(fds.outfile);
 	exit(1);

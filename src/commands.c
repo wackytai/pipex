@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 09:44:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/31 12:39:34 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/08 08:56:17 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ void	get_cmd_fullname(t_cmds **cmds, char **paths, char *argv)
 	}
 	free(test);
 	(*cmds)->cmd_path = 0;
+	command_error((*cmds)->cmd_args[0]);
 	return ;
 }

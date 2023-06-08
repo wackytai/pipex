@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/06 15:09:57 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/08 08:44:09 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	check_infile(char **argv, t_fd *fds)
 		close(fd_hd);
 	}
 	if (access(argv[1], F_OK | R_OK) != 0)
-		perror("Error1");
+		perror("Error");
 	fds->infile = open(argv[1], O_RDONLY);
 	return (0);
 }
