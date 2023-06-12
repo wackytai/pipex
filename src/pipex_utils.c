@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:36:34 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/08 08:59:57 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:39:59 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	create_process(char **argv, char **paths, t_fd fds, char **envp)
 		free_array(cmds->cmd_args);
 		get_cmd_fullname(&cmds, paths, argv[3]);
 		handle_parent(fds, pipefd, cmds, envp);
-		waitpid(pid, NULL, 0);
+		waitpid(0, NULL, 0);
 	}
 	free_array(cmds->cmd_args);
 	free(cmds->cmd_path);
