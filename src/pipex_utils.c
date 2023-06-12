@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:36:34 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/12 15:39:59 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/12 16:46:52 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	free_array(char **array)
 int	create_process(char **argv, char **paths, t_fd fds, char **envp)
 {
 	pid_t	pid;
+	pid_t	pid1;
 	int		pipefd[2];
 	t_cmds	*cmds;
 
@@ -36,22 +37,24 @@ int	create_process(char **argv, char **paths, t_fd fds, char **envp)
 	cmds = malloc(sizeof(t_cmds));
 	get_cmd_fullname(&cmds, paths, argv[2]);
 	if (pid == 0)
-		handle_child(fds, pipefd, cmds, envp);
-	else
-	{
-		free(cmds->cmd_path);
-		free_array(cmds->cmd_args);
-		get_cmd_fullname(&cmds, paths, argv[3]);
-		handle_parent(fds, pipefd, cmds, envp);
-		waitpid(0, NULL, 0);
-	}
+		handle_cmd1(fds, pipefd, cmds, envp);
+	free(cmds->cmd_path);
+	free_array(cmds->cmd_args);
+	get_cmd_fullname(&cmds, paths, argv[3]);
+	pid1 = fork();
+	if (pid1 < 0)
+		process_error(1);
+	if (pid1 == 0)
+		handle_cmd2(fds, pipefd, cmds, envp);
+	waitpid(pid, NULL, 0);
+	waitpid(pid1, NULL, 0);
 	free_array(cmds->cmd_args);
 	free(cmds->cmd_path);
 	free(cmds);
 	return (0);
 }
 
-int	handle_child(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp)
+int	handle_cmd1(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp)
 {
 	dup2(fds.infile, STDIN_FILENO);
 	dup2(pipefd[1], STDOUT_FILENO);
@@ -65,7 +68,7 @@ int	handle_child(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp)
 	return (0);
 }
 
-int	handle_parent(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp)
+int	handle_cmd2(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp)
 {
 	dup2(fds.outfile, STDOUT_FILENO);
 	dup2(pipefd[0], STDIN_FILENO);

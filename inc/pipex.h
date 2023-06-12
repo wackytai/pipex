@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:07:14 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/08 08:52:37 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/12 16:41:16 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	get_cmd_fullname(t_cmds **cmds, char **paths, char *argv);
 /* pipex_utils.c */
 void	free_array(char **array);
 int		create_process(char **argv, char **paths, t_fd fds, char **envp);
-int		handle_child(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp);
-int		handle_parent(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp);
+int		handle_cmd1(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp);
+int		handle_cmd2(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp);
 
 /* error.c */
 int		file_error(t_fd fds);
