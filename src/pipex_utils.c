@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:36:34 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/13 13:50:38 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/13 14:01:52 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,22 @@ int	create_process(char **argv, char **paths, t_fd fds, char **envp)
 	if (pid == 0)
 		handle_cmd1(fds, pipefd, cmds, envp);
 	else
+	{
+		free(cmds->cmd_path);
+		free_array(cmds->cmd_args);
+		get_cmd_fullname(&cmds, paths, argv[3]);
 		pid1 = fork();
-	free(cmds->cmd_path);
-	free_array(cmds->cmd_args);
-	get_cmd_fullname(&cmds, paths, argv[3]);
-	if (pid1 < 0)
-		process_error(1);
-	if (pid1 == 0)
-		handle_cmd2(fds, pipefd, cmds, envp);
+		if (pid1 < 0)
+			process_error(1);
+		if (pid1 == 0)
+			handle_cmd2(fds, pipefd, cmds, envp);
+	}
+	close(pipefd[0]);
+	close(pipefd[1]);
 	waitpid(pid, NULL, 0);
 	waitpid(pid1, NULL, 0);
-	free_array(cmds->cmd_args);
 	free(cmds->cmd_path);
+	free_array(cmds->cmd_args);
 	free(cmds);
 	return (0);
 }
@@ -69,8 +73,10 @@ int	handle_cmd1(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp)
 		close(fds.outfile);
 		exit(1);
 	}
-	execve(cmds->cmd_path, cmds->cmd_args, envp);
-	perror("execve failed: ");
+	if (execve(cmds->cmd_path, cmds->cmd_args, envp) < 0)
+		perror("execve failed: ");
+	close(fds.infile);
+	close(fds.outfile);
 	return (0);
 }
 
@@ -88,7 +94,9 @@ int	handle_cmd2(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp)
 		close(fds.outfile);
 		exit(1);
 	}
-	execve(cmds->cmd_path, cmds->cmd_args, envp);
-	perror("execve failed: ");
+	if (execve(cmds->cmd_path, cmds->cmd_args, envp) < 0)
+		perror("execve failed: ");
+	close(fds.infile);
+	close(fds.outfile);
 	return (0);
 }
