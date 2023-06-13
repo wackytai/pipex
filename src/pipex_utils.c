@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:36:34 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/13 14:01:52 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:23:43 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@ void	free_array(char **array)
 	while (array[++i])
 		free(array[i]);
 	free(array);
+}
+
+void	free_cmds(char **array, char *path)
+{
+	free_array(array);
+	free(path);
 }
 
 int	create_process(char **argv, char **paths, t_fd fds, char **envp)
@@ -40,21 +46,12 @@ int	create_process(char **argv, char **paths, t_fd fds, char **envp)
 		handle_cmd1(fds, pipefd, cmds, envp);
 	else
 	{
-		free(cmds->cmd_path);
-		free_array(cmds->cmd_args);
+		free_cmds(cmds->cmd_args, cmds->cmd_path);
 		get_cmd_fullname(&cmds, paths, argv[3]);
-		pid1 = fork();
-		if (pid1 < 0)
-			process_error(1);
-		if (pid1 == 0)
-			handle_cmd2(fds, pipefd, cmds, envp);
+		pid1 = fork_process(fds, pipefd, cmds, envp);
 	}
-	close(pipefd[0]);
-	close(pipefd[1]);
-	waitpid(pid, NULL, 0);
-	waitpid(pid1, NULL, 0);
-	free(cmds->cmd_path);
-	free_array(cmds->cmd_args);
+	close_and_wait(pid, pid1, pipefd);
+	free_cmds(cmds->cmd_args, cmds->cmd_path);
 	free(cmds);
 	return (0);
 }

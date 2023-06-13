@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/31 12:46:55 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:23:21 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,16 @@ int	check_infile(char *argv, t_fd *fds)
 	else
 		return (file_error(*fds));
 	return (0);
+}
+
+int	fork_process(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid < 0)
+		process_error(1);
+	if (pid == 0)
+		handle_cmd2(fds, pipefd, cmds, envp);
+	return (pid);
 }

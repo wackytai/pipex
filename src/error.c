@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:22:56 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/08 08:52:43 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:19:43 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,12 @@ int	process_error(int flag)
 	else
 		perror("Fork failed");
 	exit(1);
+}
+
+void	close_and_wait(int pid, int pid1, int pipefd[2])
+{
+	close(pipefd[0]);
+	close(pipefd[1]);
+	waitpid(pid, NULL, 0);
+	waitpid(pid1, NULL, 0);
 }
