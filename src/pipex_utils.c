@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:36:34 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/12 16:46:52 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/13 13:50:38 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,11 @@ int	create_process(char **argv, char **paths, t_fd fds, char **envp)
 	get_cmd_fullname(&cmds, paths, argv[2]);
 	if (pid == 0)
 		handle_cmd1(fds, pipefd, cmds, envp);
+	else
+		pid1 = fork();
 	free(cmds->cmd_path);
 	free_array(cmds->cmd_args);
 	get_cmd_fullname(&cmds, paths, argv[3]);
-	pid1 = fork();
 	if (pid1 < 0)
 		process_error(1);
 	if (pid1 == 0)
@@ -56,28 +57,38 @@ int	create_process(char **argv, char **paths, t_fd fds, char **envp)
 
 int	handle_cmd1(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp)
 {
-	dup2(fds.infile, STDIN_FILENO);
-	dup2(pipefd[1], STDOUT_FILENO);
+	if (dup2(fds.infile, STDIN_FILENO) < 0)
+		perror("Error");
+	if (dup2(pipefd[1], STDOUT_FILENO) < 0)
+		perror("Error");
 	close(pipefd[0]);
 	close(pipefd[1]);
-	if (cmds->cmd_path != 0)
+	if (cmds->cmd_path == 0)
 	{
-		execve(cmds->cmd_path, cmds->cmd_args, envp);
-		perror("execve failed: ");
+		close(fds.infile);
+		close(fds.outfile);
+		exit(1);
 	}
+	execve(cmds->cmd_path, cmds->cmd_args, envp);
+	perror("execve failed: ");
 	return (0);
 }
 
 int	handle_cmd2(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp)
 {
-	dup2(fds.outfile, STDOUT_FILENO);
-	dup2(pipefd[0], STDIN_FILENO);
+	if (dup2(fds.outfile, STDOUT_FILENO) < 0)
+		perror("Error");
+	if (dup2(pipefd[0], STDIN_FILENO) < 0)
+		perror("Error");
 	close(pipefd[0]);
 	close(pipefd[1]);
-	if (cmds->cmd_path != 0)
+	if (cmds->cmd_path == 0)
 	{
-		execve(cmds->cmd_path, cmds->cmd_args, envp);
-		perror("execve failed: ");
+		close(fds.infile);
+		close(fds.outfile);
+		exit(1);
 	}
+	execve(cmds->cmd_path, cmds->cmd_args, envp);
+	perror("execve failed: ");
 	return (0);
 }
