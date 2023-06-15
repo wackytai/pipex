@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:22:56 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/08 08:44:00 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/15 10:20:02 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	args_error(void)
 int	command_error(t_cmds *cmd, int out, int flag, t_fd fds)
 {
 	printf("pipex: command not found: %s\n", cmd->cmd_args[0]);
-	free_array(cmd->cmd_args);
+	free_all(cmd->cmd_args, 0, fds.pid);
 	if (flag >= (fds.n_cmds - 1) && out)
 		free(cmd->cmd_path);
 	close_files(fds, flag);

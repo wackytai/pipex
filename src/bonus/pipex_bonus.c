@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/15 09:31:35 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/15 10:48:22 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(int argc, char **argv, char **envp)
 	fds.paths = get_paths(envp);
 	create_process(argv, &fds, envp);
 	if (fds.paths != 0)
-		free_array(fds.paths);
+		free_all(fds.paths, 0, 0);
 	close_files(fds, fds.n_cmds);
 	return (0);
 }
@@ -79,22 +79,15 @@ int	create_process(char **argv, t_fd *fds, char **envp)
 		if (fds->infile < 0)
 			continue ;
 		fds->cmd = argv[i + 2 + fds->ishdoc];
-		fds->pid[0] = fork_processes(fds->pid[i], fds);
-		if (fds->pid[i] == 0)
+		fds->pid[i] = fork_processes(fds->pid[i], fds);
+		if (!fds->pid[i])
 			handle_child(fds, i, envp);
-		else
-		{
-			if (i > 0)
-				fds->pid[i] = fork_processes(fds->pid[i], fds);
-		}
 	}
-	close(fds->infile);
-	close(fds->outfile);
 	i = -1;
 	while (++i < fds->n_cmds)
 		waitpid(fds->pid[i], NULL, 0);
 	close_pipes(fds);
-	free_pipes(fds->pipefd);
+	free_all(0, fds->pipefd, fds->pid);
 	return (0);
 }
 

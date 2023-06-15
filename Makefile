@@ -15,7 +15,8 @@ $(NAME):	$(C_SOURCES)
 
 bonus:	$(B_SOURCES)
 		@$(MAKE) --no-print-directory -C $(LIBFT_DIR)
-		@$(CC) $(CFLAGS) $(^) -o $(NAME) $(LIBFT) -fsanitize=address
+		@$(CC) $(CFLAGS) $(^) -o $(NAME) $(LIBFT) 
+#-fsanitize=address
 
 clean:	
 		@rm -f *.o
@@ -28,5 +29,8 @@ fclean:	clean
 re:	fclean all
 
 reb: fclean bonus
+
+valgrind: 
+		valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./pipex res/infile "sleep 10" "sleep 5" "sleep 2" res/outfile
 
 .PHONY: all bonus clean fclean re reb

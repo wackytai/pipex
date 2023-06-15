@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:07:14 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/15 09:15:34 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/15 10:16:52 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ char	*check_command(char **paths, char *cmd);
 void	get_cmd_fullname(t_cmds *cmds, t_fd *fds, char *argv, int i);
 
 /* pipex_utils_bonus.c */
-void	free_array(char **array);
-void	free_pipes(int **array);
+void	free_all(char **arrays, int **ints, pid_t *pids);
 void	close_pipes(t_fd *fds);
 int		handle_child(t_fd *fds, int i, char **envp);
 void	init_pid(t_fd *fds);

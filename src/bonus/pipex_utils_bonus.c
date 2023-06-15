@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:36:34 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/15 09:28:56 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/15 10:22:45 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,27 @@ void	free_pipes(int **array)
 	free(array);
 }
 
+void	free_all(char **arrays, int **ints, pid_t *pids)
+{
+	int	i;
+
+	i = -1;
+	if (arrays != 0)
+	{
+		while (arrays[++i])
+			free(arrays[i]);
+		free(arrays);
+	}
+	i = -1;
+	if (ints != 0)
+	{
+		while (ints[++i])
+			free(ints[i]);
+		free(ints);
+	}
+	free(pids);
+}
+
 void	close_pipes(t_fd *fds)
 {
 	int	i;
@@ -54,11 +75,10 @@ int	handle_child(t_fd *fds, int i, char **envp)
 	close_pipes(fds);
 	execve(cmds.cmd_path, cmds.cmd_args, envp);
 	perror("\texecve failed: ");
-	free_array(cmds.cmd_args);
+	free_all(cmds.cmd_args, 0, fds->pid);
 	free(cmds.cmd_path);
-	free_array(fds->paths);
-	free_pipes(fds->pipefd);
+	free_all(fds->paths, fds->pipefd, 0);
 	close(fds->infile);
 	close(fds->outfile);
-	exit (0);
+	exit (1);
 }

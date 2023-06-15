@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 08:33:49 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/15 09:19:21 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/15 10:48:30 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	create_pipes(t_fd *fds)
 		if (!fds->pipefd[i] || pipe(fds->pipefd[i]) < 0)
 		{
 			close_files(*fds, fds->n_cmds);
-			free_pipes(fds->pipefd);
+			free_all(0, fds->pipefd, fds->pid);
 			process_error(0);
 		}
 	}
@@ -46,13 +46,12 @@ pid_t	fork_processes(int pid, t_fd *fds)
 	if (pid < 0)
 	{
 		close_files(*fds, fds->n_cmds);
-		free_array(fds->paths);
 		while (++i < fds->n_cmds - 1)
 		{
 			close(fds->pipefd[i][0]);
 			close(fds->pipefd[i][1]);
 		}
-		free_pipes(fds->pipefd);
+		free_all(fds->paths, fds->pipefd, fds->pid);
 		process_error(1);
 	}
 	return (pid);
@@ -88,13 +87,18 @@ int	update_pipe_ends(t_fd *fds, int i)
 
 void	init_pid(t_fd *fds)
 {
-	fds->pid = (pid_t *)ft_calloc(sizeof(pid_t), fds->n_cmds);
+	int	i;
+
+	i = -1;
+	fds->pid = (pid_t *)malloc(sizeof(pid_t) * fds->n_cmds);
 	if (!fds->pid)
 	{
 		close_files(*fds, fds->n_cmds);
 		close_pipes(fds);
-		free_pipes(fds->pipefd);
+		free_all(0, fds->pipefd, fds->pid);
 		perror("Error");
 		exit(1);
 	}
+	while (++i < fds->n_cmds)
+		fds->pid[i] = -1;
 }
