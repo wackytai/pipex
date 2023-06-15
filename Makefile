@@ -31,6 +31,6 @@ re:	fclean all
 reb: fclean bonus
 
 valgrind: 
-		valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./pipex res/infile "sleep 10" "sleep 5" "sleep 2" res/outfile
+		valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./pipex res/infile "" "" "" res/outfile
 
 .PHONY: all bonus clean fclean re reb

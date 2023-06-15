@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:07:14 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/15 10:16:52 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/15 14:39:36 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int		update_pipe_ends(t_fd *fds, int i);
 /* error_bonus.c */
 int		file_error(t_fd fds);
 int		args_error(void);
-int		command_error(t_cmds *cmd, int out, int flag, t_fd fds);
+int		command_error(t_cmds *cmd, int out, int flag, t_fd *fds);
 int		process_error(int flag);
 void	close_files(t_fd fds, int flag);
 

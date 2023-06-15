@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:22:56 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/15 10:20:02 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/15 14:41:37 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,18 @@ int	args_error(void)
 	exit(1);
 }
 
-int	command_error(t_cmds *cmd, int out, int flag, t_fd fds)
+int	command_error(t_cmds *cmd, int out, int flag, t_fd *fds)
 {
-	printf("pipex: command not found: %s\n", cmd->cmd_args[0]);
-	free_all(cmd->cmd_args, 0, fds.pid);
-	if (flag >= (fds.n_cmds - 1) && out)
+	if (cmd->cmd_args[0] == 0)
+		printf("Permission denied: %s\n", cmd->cmd_args[0]);
+	else
+		printf("Command not found: %s\n", cmd->cmd_args[0]);
+	if (flag >= (fds->n_cmds - 1) && out)
 		free(cmd->cmd_path);
-	close_files(fds, flag);
+	close_pipes(fds);
+	close_files(*fds, flag);
+	free_all(cmd->cmd_args, fds->pipefd, fds->pid);
+	free_all(fds->paths, 0, 0);
 	exit(1);
 }
 
