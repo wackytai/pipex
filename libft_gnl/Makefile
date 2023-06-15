@@ -2,9 +2,9 @@
 NAME = libft.a
 
 # Mandatory .c Files
-C_SOURCES = ft_split.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_strncmp.c ft_strlen.c \
-			ft_strjoin.c ft_substr.c ft_putnbr_fd.c ft_strdup.c \
-			get_next_line_bonus.c get_next_line_utils_bonus.c
+C_SOURCES = ft_split.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_strncmp.c \
+			ft_strlen.c ft_strjoin.c ft_substr.c ft_putnbr_fd.c ft_strdup.c \
+			ft_calloc.c get_next_line_bonus.c get_next_line_utils_bonus.c
 
 # Object Files
 OBJ = $(C_SOURCES:.c=.o)

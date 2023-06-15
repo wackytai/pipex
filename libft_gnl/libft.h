@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 10:17:47 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/05/15 19:34:09 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/15 09:18:55 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # endif
 
 /* libft functions */
+void	*ft_calloc(size_t nmemb, size_t size);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);

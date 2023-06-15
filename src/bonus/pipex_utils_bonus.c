@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:36:34 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/06 14:19:06 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/15 09:28:56 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,7 @@ int	handle_child(t_fd *fds, int i, char **envp)
 	free(cmds.cmd_path);
 	free_array(fds->paths);
 	free_pipes(fds->pipefd);
+	close(fds->infile);
+	close(fds->outfile);
 	exit (0);
 }

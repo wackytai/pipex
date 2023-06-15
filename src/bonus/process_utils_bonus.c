@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 08:33:49 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/08 08:44:31 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/15 09:19:21 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,17 @@ int	update_pipe_ends(t_fd *fds, int i)
 		out = fds->pipefd[i][1];
 	}
 	return (out);
+}
+
+void	init_pid(t_fd *fds)
+{
+	fds->pid = (pid_t *)ft_calloc(sizeof(pid_t), fds->n_cmds);
+	if (!fds->pid)
+	{
+		close_files(*fds, fds->n_cmds);
+		close_pipes(fds);
+		free_pipes(fds->pipefd);
+		perror("Error");
+		exit(1);
+	}
 }

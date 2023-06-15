@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:07:14 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/06 14:51:00 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/15 09:15:34 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_fd
 	int		**pipefd;
 	char	**paths;
 	char	*cmd;
+	pid_t	*pid;
 }	t_fd;
 
 /* pipex_bonus.c */
@@ -56,6 +57,7 @@ void	free_array(char **array);
 void	free_pipes(int **array);
 void	close_pipes(t_fd *fds);
 int		handle_child(t_fd *fds, int i, char **envp);
+void	init_pid(t_fd *fds);
 
 /* process_utils_bonus.c */
 void	create_pipes(t_fd *fds);
