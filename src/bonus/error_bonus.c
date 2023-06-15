@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:22:56 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/15 16:33:08 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/15 17:50:53 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int	args_error(void)
 int	command_error(t_cmds *cmd, int out, int flag, t_fd *fds)
 {
 	if (cmd->cmd_args[0] == 0)
-		printf("Permission denied: \n");
+		ft_printf("Permission denied: \n");
 	else
-		printf("Command not found: %s\n", cmd->cmd_args[0]);
+		ft_printf("Command not found: %s\n", cmd->cmd_args[0]);
 	if (flag >= (fds->n_cmds - 1) && out)
 		free(cmd->cmd_path);
 	close_pipes(fds);
@@ -54,7 +54,7 @@ void	close_files(t_fd fds, int flag)
 {
 	close(fds.infile);
 	close(fds.outfile);
-	printf("files close\n");
+	ft_printf("files close\n");
 	if (fds.ishdoc && flag >= (fds.n_cmds - 1))
 		unlink("here_doc");
 }
