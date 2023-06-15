@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/15 14:28:20 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/15 16:31:20 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	create_process(char **argv, t_fd *fds, char **envp)
 	while (++i < fds->n_cmds)
 	{
 		fds->cmd = argv[i + 2 + fds->ishdoc];
-		if (fds->infile < 0 || fds->n_cmds == 0)
+		if (fds->infile < 0 || fds->cmd == 0)
 			continue ;
 		fds->pid[i] = fork_processes(fds->pid[i], fds);
 		if (!fds->pid[i])
