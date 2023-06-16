@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/16 15:14:52 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/16 15:35:13 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ int	check_infile(char **argv, t_fd *fds)
 
 int	create_process(char **argv, t_fd *fds, char **envp)
 {
-	int		i;
-	int		status;
-	int		test;
+	int	i;
+	int	status;
+	int	test;
 
 	i = -1;
 	init_pid(fds);
@@ -88,7 +88,6 @@ int	create_process(char **argv, t_fd *fds, char **envp)
 	i = -1;
 	while (++i < fds->n_cmds)
 	{
-		ft_printf("process %i\n", i);
 		test = 0;
 		while (!test)
 		{
