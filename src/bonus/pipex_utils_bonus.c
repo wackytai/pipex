@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:36:34 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/15 16:53:02 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/16 10:30:47 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,8 @@ int	handle_child(t_fd *fds, int i, char **envp)
 	t_cmds	cmds;
 
 	get_cmd_fullname(&cmds, fds, fds->cmd, (i + fds->ishdoc));
-	printf("got cmd %i\n", i);
 	update_pipe_ends(fds, i);
-	printf("pipes updated %i\n", i);
 	close_pipes(fds);
-	printf("pipes closed %i\n", i);
 	execve(cmds.cmd_path, cmds.cmd_args, envp);
 	perror("\texecve failed: ");
 	free_all(cmds.cmd_args, 0, fds->pid);
