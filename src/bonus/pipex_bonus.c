@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/16 13:53:16 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/16 15:14:52 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,10 @@ int	create_process(char **argv, t_fd *fds, char **envp)
 	while (++i < fds->n_cmds)
 	{
 		ft_printf("process %i\n", i);
-		while (!(test = waitpid(fds->pid[i], &status, WNOHANG)))
+		test = 0;
+		while (!test)
 		{
+			test = waitpid(fds->pid[i], &status, WNOHANG);
 			if (WIFEXITED(status) == 1)
 				break ;
 		}
