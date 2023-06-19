@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/19 09:58:31 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/19 11:45:54 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,14 @@ int	create_process(char **argv, t_fd *fds, char **envp)
 			continue ;
 		fds->pid[i] = fork_processes(fds->pid[i], fds);
 		if (!fds->pid[i])
+		{
 			handle_child(fds, i, envp);
+			if (i > 0)
+			{
+				close(fds->pipefd[i - 1][1]);
+				close(fds->pipefd[i - 1][0]);
+			}
+		}
 	}
 	close_pipes(fds);
 	wait_processes(fds);
