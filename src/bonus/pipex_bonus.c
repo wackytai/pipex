@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/19 11:45:54 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/19 12:42:39 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char **argv, char **envp)
 	fds.ishdoc = 0;
 	fds.outfile = 0;
 	if (argc < 5 || (argc == 5
-			&& !ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1]))))
+			&& !ft_strncmp(argv[1], "here_doc", get_len(argv[1], "here_doc"))))
 		return (args_error());
 	check_infile(argv, &fds);
 	fds.n_cmds = argc - 3 - fds.ishdoc;
@@ -55,7 +55,7 @@ int	check_infile(char **argv, t_fd *fds)
 	int	fd_hd;
 
 	fd_hd = 0;
-	if (ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1])) == 0)
+	if (!ft_strncmp(argv[1], "here_doc", get_len(argv[1], "here_doc")))
 	{
 		fds->ishdoc = 1;
 		fd_hd = open(argv[1], O_RDWR | O_CREAT | O_TRUNC, 0644);

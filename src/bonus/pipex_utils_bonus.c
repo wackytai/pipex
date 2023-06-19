@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:36:34 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/19 11:56:40 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/19 12:43:34 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,17 @@ int	handle_child(t_fd *fds, int i, char **envp)
 	close(fds->infile);
 	close(fds->outfile);
 	exit (1);
+}
+
+int	get_len(char *s1, char *s2)
+{
+	int	len1;
+	int	len2;
+
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	if (len1 > len2)
+		return (len1);
+	else
+		return (len2);
 }

@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:07:14 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/19 12:01:10 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/19 12:33:11 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,13 @@ void	free_all(char **arrays, int **ints, pid_t *pids);
 void	close_pipes(t_fd *fds);
 void	wait_processes(t_fd *fds);
 int		handle_child(t_fd *fds, int i, char **envp);
-void	init_pid(t_fd *fds);
+int		get_len(char *s1, char *s2);
 
 /* process_utils_bonus.c */
 void	create_pipes(t_fd *fds);
 pid_t	fork_processes(int pid, t_fd *fds);
 int		update_pipe_ends(t_fd *fds, int i);
+void	init_pid(t_fd *fds);
 
 /* error_bonus.c */
 int		file_error(t_fd fds);
