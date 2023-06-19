@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/16 15:35:13 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/19 09:58:31 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ int	check_infile(char **argv, t_fd *fds)
 int	create_process(char **argv, t_fd *fds, char **envp)
 {
 	int	i;
-	int	status;
-	int	test;
 
 	i = -1;
 	init_pid(fds);
@@ -85,18 +83,8 @@ int	create_process(char **argv, t_fd *fds, char **envp)
 		if (!fds->pid[i])
 			handle_child(fds, i, envp);
 	}
-	i = -1;
-	while (++i < fds->n_cmds)
-	{
-		test = 0;
-		while (!test)
-		{
-			test = waitpid(fds->pid[i], &status, WNOHANG);
-			if (WIFEXITED(status) == 1)
-				break ;
-		}
-	}
 	close_pipes(fds);
+	wait_processes(fds);
 	free_all(0, fds->pipefd, fds->pid);
 	return (0);
 }

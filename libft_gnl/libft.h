@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 10:17:47 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/15 09:18:55 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/19 10:01:39 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <string.h>
+# include <stdarg.h>
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 6
 # endif
@@ -38,5 +39,11 @@ char	*ft_strjoin_gnl(char *s1, char *s2);
 char	*ft_free(char *s);
 int		check_stretch(char *stretch);
 char	*get_next_line(int fd);
+/* printf functions */
+int		ft_printf(const char *s, ...);
+void	ft_putchar(char c);
+int		ft_putstr(char *s);
+int		ft_putnbr_base(long long n, char *base, int b);
+int		ft_putptr_base(unsigned long n, char *base, int j);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:36:34 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/16 10:30:47 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/19 10:19:54 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,26 @@ void	close_pipes(t_fd *fds)
 	{
 		close(fds->pipefd[i][0]);
 		close(fds->pipefd[i][1]);
+	}
+	return ;
+}
+
+void	wait_processes(t_fd *fds)
+{
+	int	i;
+	int	test;
+	int	status;
+
+	i = -1;
+	while (++i < fds->n_cmds)
+	{
+		test = 0;
+		while (!test)
+		{
+			test = waitpid(fds->pid[i], &status, WNOHANG);
+			if (WIFEXITED(status) == 1)
+				break ;
+		}
 	}
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:07:14 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/15 17:54:25 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/19 10:02:04 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 # include "../libft_gnl/libft.h"
-# include "../printf/ft_printf.h"
 
 typedef struct s_cmds
 {

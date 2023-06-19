@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   ft_putnbr_base.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/15 11:53:36 by tlemos-m          #+#    #+#             */
-/*   Updated: 2022/11/18 11:06:51 by tlemos-m         ###   ########.fr       */
+/*   Created: 2022/11/15 09:06:06 by tlemos-m          #+#    #+#             */
+/*   Updated: 2023/06/19 10:03:17 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int	ft_putstr(char *s)
+int	ft_putnbr_base(long long n, char *base, int b)
 {
 	int	i;
 
 	i = 0;
-	if (!s)
+	if (n < 0)
 	{
-		write(1, "(null)", 6);
-		return (6);
+		ft_putchar('-');
+		n *= -1;
+		i = 1;
 	}
-	while (s[i])
-	{
-		ft_putchar(s[i]);
-		i++;
-	}
-	return (ft_strlen(s));
+	if (n / b > 0)
+		i += ft_putnbr_base(n / b, base, b);
+	ft_putchar(base[n % b]);
+	i++;
+	return (i);
 }
