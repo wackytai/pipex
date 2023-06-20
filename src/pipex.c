@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/20 11:51:02 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:04:54 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	main(int argc, char **argv, char **envp)
 	char	**paths;
 
 	fds.outfile = argc;
+	fds.fds[0] = -1;
+	fds.fds[1] = -1;
 	if (argc >= 5)
 	{
 		check_infile(argv[1], &fds);
@@ -68,11 +70,21 @@ int	fork_process(t_fd *fds, char **paths, char *argv, char **envp)
 
 	pid = fork();
 	if (pid < 0)
-		process_error(1);
+		process_error(1, fds);
 	if (pid == 0)
 	{
 		update_pipes(fds, 1);
 		handle_cmd(fds, paths, argv, envp);
 	}
 	return (pid);
+}
+
+int	dup_failed(t_fd *fds, char **paths)
+{
+	close(fds->infile);
+	close(fds->outfile);
+	close(fds->pipefd[0]);
+	close(fds->pipefd[1]);
+	free_array(paths);
+	exit (1);
 }

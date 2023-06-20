@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:36:34 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/20 12:46:47 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:08:07 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,15 @@ int	create_process(char **argv, char **paths, t_fd *fds, char **envp)
 	pid = -1;
 	pid1 = -1;
 	if (pipe(fds->pipefd) < 0)
-		process_error(0);
+		process_error(0, fds);
 	pid = fork();
 	if (pid < 0)
-		process_error(1);
+		process_error(1, fds);
 	if (pid == 0)
 	{
 		update_pipes(fds, 0);
+		if (fds->fds[0] < 0 || fds->fds[1] < 0)
+			dup_failed(fds, paths);
 		handle_cmd(fds, paths, argv[2], envp);
 	}
 	else
@@ -56,7 +58,6 @@ int	handle_cmd(t_fd *fds, char **paths, char *argv, char **envp)
 	t_cmds	*cmds;
 
 	cmds = malloc(sizeof(t_cmds));
-
 	get_cmd_fullname(&cmds, paths, argv);
 	if (cmds->cmd_path == 0)
 	{
@@ -84,14 +85,20 @@ void	update_pipes(t_fd *fds, int flag)
 		fds->fds[0] = dup2(fds->infile, STDIN_FILENO);
 		fds->fds[1] = dup2(fds->pipefd[1], STDOUT_FILENO);
 		if (fds->fds[0] < 0 || fds->fds[1] < 0)
+		{
 			perror("Error");
+			return ;
+		}
 	}
 	if (flag == 1)
 	{
 		fds->fds[0] = dup2(fds->outfile, STDOUT_FILENO);
 		fds->fds[1] = dup2(fds->pipefd[0], STDIN_FILENO);
 		if (fds->fds[0] < 0 || fds->fds[1] < 0)
+		{
 			perror("Error");
+			return ;
+		}
 	}
 	close(fds->pipefd[0]);
 	close(fds->pipefd[1]);

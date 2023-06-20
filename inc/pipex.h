@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:07:14 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/20 12:31:44 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:04:23 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,12 @@ typedef struct s_fd
 	int	fds[2];
 }	t_fd;
 
-/* main.c */
+/* pipex.c */
 int		main(int argc, char **argv, char **envp);
 int		check_outfile(int argc, char **argv, t_fd *fds);
 int		check_infile(char *argv, t_fd *fds);
 int		fork_process(t_fd *fds, char **paths, char *argv, char **envp);
+int		dup_failed(t_fd *fds, char **paths);
 
 /* commands.c */
 char	**get_paths(char **envp);
@@ -58,7 +59,7 @@ void	update_pipes(t_fd *fds, int flag);
 int		file_error(t_fd *fds);
 int		args_error(void);
 int		command_error(char *str);
-int		process_error(int flag);
+int		process_error(int flag, t_fd *fds);
 void	close_and_wait(int pid, int pid1, t_fd *fds);
 
 #endif

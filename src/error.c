@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:22:56 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/20 11:57:25 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/20 13:57:33 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,16 @@ int	command_error(char *str)
 	return (4);
 }
 
-int	process_error(int flag)
+int	process_error(int flag, t_fd *fds)
 {
 	if (flag == 0)
 		perror("Pipe failed");
 	else
 		perror("Fork failed");
+	close(fds->infile);
+	close(fds->outfile);
+	close(fds->fds[0]);
+	close(fds->fds[1]);
 	exit(1);
 }
 
