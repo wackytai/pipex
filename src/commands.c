@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 09:44:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/20 08:48:25 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/20 11:19:01 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,16 @@ char	*check_command(char **paths, char *cmd)
 {
 	int		i;
 	char	*test;
-	int		flag;
 
 	i = -1;
-	flag = 1;
 	while (paths[++i])
 	{
 		test = ft_strjoin(paths[i], cmd);
 		if (access(test, F_OK & X_OK) == 0)
-		{
-			flag = 0;
-			break ;
-		}
+			return (test);
 		free(test);
 	}
-	if (flag == 1)
-		return (0);
-	return (test);
+	return (0);
 }
 
 void	get_cmd_fullname(t_cmds **cmds, char **paths, char *argv)

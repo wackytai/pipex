@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:36:34 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/19 12:43:34 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/20 12:57:04 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,16 @@ int	handle_child(t_fd *fds, int i, char **envp)
 {
 	t_cmds	cmds;
 
-	get_cmd_fullname(&cmds, fds, fds->cmd, (i + fds->ishdoc));
 	update_pipe_ends(fds, i);
+	if (fds->fds[0] < 0 || fds->fds[1] < 0)
+	{
+		free_all(fds->paths, 0, 0);
+		close_pipes(fds);
+		close(fds->infile);
+		close(fds->outfile);
+		exit (1);
+	}
+	get_cmd_fullname(&cmds, fds, fds->cmd, (i + fds->ishdoc));
 	close_pipes(fds);
 	execve(cmds.cmd_path, cmds.cmd_args, envp);
 	perror("\texecve failed: ");

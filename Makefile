@@ -11,7 +11,8 @@ CFLAGS = -Wall -Wextra -Werror -g
 all:	$(NAME)
 $(NAME):	$(C_SOURCES)
 			@$(MAKE) --no-print-directory -C $(LIBFT_DIR)
-			@$(CC) $(CFLAGS) $(^) -o $(@) $(LIBFT) $(PRINTF) -fsanitize=address
+			@$(CC) $(CFLAGS) $(^) -o $(@) $(LIBFT) $(PRINTF) 
+#-fsanitize=address
 
 bonus:	$(B_SOURCES)
 		@$(MAKE) --no-print-directory -C $(LIBFT_DIR)
@@ -31,6 +32,6 @@ re:	fclean all
 reb: fclean bonus
 
 valgrind: 
-		valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./pipex here_doc ; cat rev res/outfile
+		valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --quiet ./pipex res/infile "" "" "" res/outfile
 
 .PHONY: all bonus clean fclean re reb

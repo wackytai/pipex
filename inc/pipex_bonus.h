@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:07:14 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/19 12:33:11 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/20 12:52:33 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_fd
 {
 	int		infile;
 	int		outfile;
+	int		fds[2];
 	int		ishdoc;
 	int		n_cmds;
 	int		**pipefd;
@@ -62,7 +63,7 @@ int		get_len(char *s1, char *s2);
 /* process_utils_bonus.c */
 void	create_pipes(t_fd *fds);
 pid_t	fork_processes(int pid, t_fd *fds);
-int		update_pipe_ends(t_fd *fds, int i);
+void	update_pipe_ends(t_fd *fds, int i);
 void	init_pid(t_fd *fds);
 
 /* error_bonus.c */

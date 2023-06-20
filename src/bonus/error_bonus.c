@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:22:56 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/19 12:00:48 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/20 13:00:01 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,19 @@ int	args_error(void)
 
 int	command_error(t_cmds *cmd, char *argv, int flag, t_fd *fds)
 {
-	ft_printf("Command not found: '%s'\n", argv);
+	char	*str;
+
+	str = ft_strjoin("Command not found: ", argv);
+	ft_putendl_fd(str, STDERR_FILENO);
+	free(str);
+	if (argv[0] != 0)
+		ft_printf("Please ask your administrator.\n");
 	if (flag >= (fds->n_cmds - 1))
 		free(cmd->cmd_path);
 	close_pipes(fds);
 	close_files(*fds, flag);
+	close(fds->fds[0]);
+	close(fds->fds[1]);
 	free_all(cmd->cmd_args, fds->pipefd, fds->pid);
 	free_all(fds->paths, 0, 0);
 	exit(1);

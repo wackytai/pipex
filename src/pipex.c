@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/13 15:23:21 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/20 11:51:02 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char **argv, char **envp)
 		if (check_outfile(argc, argv, &fds) == 0)
 		{
 			paths = get_paths(envp);
-			create_process(argv, paths, fds, envp);
+			create_process(argv, paths, &fds, envp);
 		}
 		else
 			return (2);
@@ -43,10 +43,10 @@ int	main(int argc, char **argv, char **envp)
 int	check_outfile(int argc, char **argv, t_fd *fds)
 {
 	if (!access(argv[argc - 1], W_OK) == 0 && access(argv[argc - 1], R_OK) == 0)
-		return (file_error(*fds));
+		return (file_error(fds));
 	fds->outfile = open(argv[argc - 1], O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fds->outfile < 0)
-		return (file_error(*fds));
+		return (file_error(fds));
 	else
 		return (0);
 }
@@ -54,15 +54,15 @@ int	check_outfile(int argc, char **argv, t_fd *fds)
 int	check_infile(char *argv, t_fd *fds)
 {
 	if (access(argv, F_OK) != 0)
-		return (file_error(*fds));
+		return (file_error(fds));
 	if (access(argv, R_OK) == 0)
 		fds->infile = open(argv, O_RDONLY);
 	else
-		return (file_error(*fds));
+		return (file_error(fds));
 	return (0);
 }
 
-int	fork_process(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp)
+int	fork_process(t_fd *fds, char **paths, char *argv, char **envp)
 {
 	pid_t	pid;
 
@@ -70,6 +70,9 @@ int	fork_process(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp)
 	if (pid < 0)
 		process_error(1);
 	if (pid == 0)
-		handle_cmd2(fds, pipefd, cmds, envp);
+	{
+		update_pipes(fds, 1);
+		handle_cmd(fds, paths, argv, envp);
+	}
 	return (pid);
 }

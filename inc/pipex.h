@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:07:14 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/19 10:02:04 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/20 12:31:44 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,15 @@ typedef struct s_fd
 {
 	int	infile;
 	int	outfile;
+	int	pipefd[2];
+	int	fds[2];
 }	t_fd;
 
 /* main.c */
 int		main(int argc, char **argv, char **envp);
 int		check_outfile(int argc, char **argv, t_fd *fds);
 int		check_infile(char *argv, t_fd *fds);
-int		fork_process(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp);
+int		fork_process(t_fd *fds, char **paths, char *argv, char **envp);
 
 /* commands.c */
 char	**get_paths(char **envp);
@@ -48,15 +50,15 @@ void	get_cmd_fullname(t_cmds **cmds, char **paths, char *argv);
 /* pipex_utils.c */
 void	free_array(char **array);
 void	free_cmds(char **array, char *path);
-int		create_process(char **argv, char **paths, t_fd fds, char **envp);
-int		handle_cmd1(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp);
-int		handle_cmd2(t_fd fds, int pipefd[2], t_cmds *cmds, char **envp);
+int		create_process(char **argv, char **paths, t_fd *fds, char **envp);
+int		handle_cmd(t_fd *fds, char **paths, char *argv, char **envp);
+void	update_pipes(t_fd *fds, int flag);
 
 /* error.c */
-int		file_error(t_fd fds);
+int		file_error(t_fd *fds);
 int		args_error(void);
 int		command_error(char *str);
 int		process_error(int flag);
-void	close_and_wait(int pid, int pid1, int pipefd[2]);
+void	close_and_wait(int pid, int pid1, t_fd *fds);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/19 12:42:39 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/20 12:58:54 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_fd	fds;
 
+	fds.fds[0] = -1;
+	fds.fds[1] = -1;
 	fds.paths = 0;
 	fds.pipefd = 0;
 	fds.ishdoc = 0;

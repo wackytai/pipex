@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 08:33:49 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/16 09:56:12 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/20 12:57:57 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,32 +57,29 @@ pid_t	fork_processes(int pid, t_fd *fds)
 	return (pid);
 }
 
-int	update_pipe_ends(t_fd *fds, int i)
+void	update_pipe_ends(t_fd *fds, int i)
 {
-	int	out;
-
 	if (i == 0)
 	{
-		if (dup2(fds->infile, STDIN_FILENO) < 0
-			|| dup2(fds->pipefd[i][1], STDOUT_FILENO) < 0)
+		fds->fds[0] = dup2(fds->infile, STDIN_FILENO);
+		fds->fds[1] = dup2(fds->pipefd[i][1], STDOUT_FILENO);
+		if (fds->fds[0] < 0 || fds->fds[1] < 0)
 			perror("Error");
-		out = fds->pipefd[i][1];
 	}
 	else if (i == (fds->n_cmds - 1))
 	{
-		if (dup2(fds->pipefd[i - 1][0], STDIN_FILENO) < 0
-			|| dup2(fds->outfile, STDOUT_FILENO) < 0)
+		fds->fds[0] = dup2(fds->pipefd[i - 1][0], STDIN_FILENO);
+		fds->fds[1] = dup2(fds->outfile, STDOUT_FILENO);
+		if (fds->fds[0] < 0 || fds->fds[1] < 0)
 			perror("Error");
-		out = fds->outfile;
 	}
 	else
 	{
-		if (dup2(fds->pipefd[i - 1][0], STDIN_FILENO) < 0
-			|| dup2(fds->pipefd[i][1], STDOUT_FILENO) < 0)
+		fds->fds[0] = dup2(fds->pipefd[i - 1][0], STDIN_FILENO);
+		fds->fds[1] = dup2(fds->pipefd[i][1], STDOUT_FILENO);
+		if (fds->fds[0] < 0 || fds->fds[1] < 0)
 			perror("Error");
-		out = fds->pipefd[i][1];
 	}
-	return (out);
 }
 
 void	init_pid(t_fd *fds)

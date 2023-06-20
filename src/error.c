@@ -6,17 +6,17 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:22:56 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/20 08:48:43 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/20 11:57:25 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
 
-int	file_error(t_fd fds)
+int	file_error(t_fd *fds)
 {
 	perror("Error");
-	close(fds.infile);
-	close(fds.outfile);
+	close(fds->infile);
+	close(fds->outfile);
 	exit(1);
 }
 
@@ -28,7 +28,13 @@ int	args_error(void)
 
 int	command_error(char *str)
 {
-	ft_printf("pipex: command not found: '%s'\n", str);
+	char	*str1;
+
+	str1 = ft_strjoin("Command not found: ", str);
+	ft_putendl_fd(str1, STDERR_FILENO);
+	free(str1);
+	if (str[0] != 0)
+		ft_printf("Please ask your administrator.\n");
 	return (4);
 }
 
@@ -41,10 +47,12 @@ int	process_error(int flag)
 	exit(1);
 }
 
-void	close_and_wait(int pid, int pid1, int pipefd[2])
+void	close_and_wait(int pid, int pid1, t_fd *fds)
 {
-	close(pipefd[0]);
-	close(pipefd[1]);
+	close(fds->pipefd[0]);
+	close(fds->pipefd[1]);
+	close(fds->infile);
+	close(fds->outfile);
 	waitpid(pid, NULL, 0);
 	waitpid(pid1, NULL, 0);
 }
