@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:36:34 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/13 15:23:43 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/20 08:51:40 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ int	create_process(char **argv, char **paths, t_fd fds, char **envp)
 	int		pipefd[2];
 	t_cmds	*cmds;
 
+	cmds = malloc(sizeof(t_cmds));
+	get_cmd_fullname(&cmds, paths, argv[2]);
 	if (pipe(pipefd) < 0)
 		process_error(0);
 	pid = fork();
 	if (pid < 0)
 		process_error(1);
-	cmds = malloc(sizeof(t_cmds));
-	get_cmd_fullname(&cmds, paths, argv[2]);
 	if (pid == 0)
 		handle_cmd1(fds, pipefd, cmds, envp);
 	else

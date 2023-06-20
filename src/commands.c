@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 09:44:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/12 14:59:45 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/20 08:48:25 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ void	get_cmd_fullname(t_cmds **cmds, char **paths, char *argv)
 
 	(*cmds)->cmd_args = ft_split(argv, ' ');
 	test = check_command(paths, (*cmds)->cmd_args[0]);
-	if (test != 0)
+	if (test != 0 && (*cmds)->cmd_args[0] != 0)
 	{
 		(*cmds)->cmd_path = test;
 		return ;
 	}
 	free(test);
 	(*cmds)->cmd_path = 0;
-	command_error((*cmds)->cmd_args[0]);
+	command_error(argv);
 	return ;
 }
