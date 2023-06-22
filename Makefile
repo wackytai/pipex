@@ -11,12 +11,12 @@ CFLAGS = -Wall -Wextra -Werror -g
 all:	$(NAME)
 $(NAME):	$(C_SOURCES)
 			@$(MAKE) --no-print-directory -C $(LIBFT_DIR)
-			@$(CC) $(CFLAGS) $(^) -o $(@) $(LIBFT) $(PRINTF) 
+			@$(CC) $(CFLAGS) $(^) -o $(@) $(LIBFT)
 #-fsanitize=address
 
 bonus:	$(B_SOURCES)
 		@$(MAKE) --no-print-directory -C $(LIBFT_DIR)
-		@$(CC) $(CFLAGS) $(^) -o $(NAME) $(LIBFT) $(PRINTF)
+		@$(CC) $(CFLAGS) $(^) -o $(NAME) $(LIBFT)
 #-fsanitize=address
 
 clean:	

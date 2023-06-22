@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gacorrei <gacorrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:36:34 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/22 13:07:07 by gacorrei         ###   ########.fr       */
+/*   Updated: 2023/06/22 13:45:59 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,7 @@ int	create_process(char **argv, char **paths, t_fd *fds, char **envp)
 	if (pid == 0)
 	{
 		if (fds->infile == -1)
-		{
-			close(fds->pipefd[0]);
-			close(fds->pipefd[1]);
-			return (1);
-		}
+			return (close_pipe(fds));
 		update_pipes(fds, 0);
 		if (fds->fds[0] < 0 || fds->fds[1] < 0)
 			dup_failed(fds, paths);

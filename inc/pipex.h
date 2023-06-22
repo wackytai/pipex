@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:07:14 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/20 14:04:23 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/22 13:44:35 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int		dup_failed(t_fd *fds, char **paths);
 char	**get_paths(char **envp);
 char	*check_command(char **paths, char *cmd);
 void	get_cmd_fullname(t_cmds **cmds, char **paths, char *argv);
+int		close_pipe(t_fd *fds);
 
 /* pipex_utils.c */
 void	free_array(char **array);

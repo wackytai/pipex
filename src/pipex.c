@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gacorrei <gacorrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/22 12:50:11 by gacorrei         ###   ########.fr       */
+/*   Updated: 2023/06/22 13:47:03 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	check_infile(char *argv, t_fd *fds)
 	else
 	{
 		fds->infile = -1;
-		perror("Error: can't open infile");
+		perror("Error");
 	}
 	return (0);
 }
