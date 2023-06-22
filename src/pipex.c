@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/20 14:04:54 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:51:13 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,22 @@ int	main(int argc, char **argv, char **envp)
 	t_fd	fds;
 	char	**paths;
 
-	fds.outfile = argc;
+	fds.outfile = -1;
+	fds.infile = -1;
 	fds.fds[0] = -1;
 	fds.fds[1] = -1;
-	if (argc >= 5)
-	{
-		check_infile(argv[1], &fds);
-		if (check_outfile(argc, argv, &fds) == 0)
-		{
-			paths = get_paths(envp);
-			create_process(argv, paths, &fds, envp);
-		}
-		else
-			return (2);
-	}
-	else
+	if (argc < 5)
 		return (args_error());
-	close(fds.infile);
-	close(fds.outfile);
+	check_infile(argv[1], &fds);
+	if (check_outfile(argc, argv, &fds) == 0)
+	{
+		paths = get_paths(envp);
+		create_process(argv, paths, &fds, envp);
+	}
+	if (fds.infile >= 0)
+		close(fds.infile);
+	if (fds.outfile >= 0)
+		close(fds.outfile);
 	if (paths)
 		free_array(paths);
 	return (0);

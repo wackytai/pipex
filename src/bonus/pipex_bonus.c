@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/20 12:58:54 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:20:53 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	main(int argc, char **argv, char **envp)
 	fds.paths = 0;
 	fds.pipefd = 0;
 	fds.ishdoc = 0;
-	fds.outfile = 0;
+	fds.outfile = -1;
+	fds.infile = -1;
 	if (argc < 5 || (argc == 5
 			&& !ft_strncmp(argv[1], "here_doc", get_len(argv[1], "here_doc"))))
 		return (args_error());

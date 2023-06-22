@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 09:44:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/20 11:19:01 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:08:28 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,15 @@ char	**get_paths(char **envp)
 			break ;
 	}
 	path = ft_split(envp[i] + 5, ':');
+	if (!path)
+		ft_putendl_fd("Malloc error 1", STDERR_FILENO);
 	i = -1;
 	while (path[++i])
 	{
 		temp = path[i];
 		path[i] = ft_strjoin(temp, "/");
+		if (!path[i])
+			ft_putendl_fd("Malloc error 2", STDERR_FILENO);
 		free(temp);
 	}
 	return (path);
@@ -48,6 +52,8 @@ char	*check_command(char **paths, char *cmd)
 			return (test);
 		free(test);
 	}
+	if (!test && cmd[0] != 0)
+		ft_putendl_fd("Malloc error 3", STDERR_FILENO);
 	return (0);
 }
 

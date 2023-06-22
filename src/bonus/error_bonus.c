@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:22:56 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/20 13:00:01 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:22:58 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 int	file_error(t_fd fds)
 {
 	perror("Error");
-	close(fds.infile);
-	close(fds.outfile);
+	if (fds.infile >= 0)
+		close(fds.infile);
+	if (fds.outfile >= 0)
+		close(fds.outfile);
 	exit(1);
 }
 
@@ -57,8 +59,10 @@ int	process_error(int flag)
 
 void	close_files(t_fd fds, int flag)
 {
-	close(fds.infile);
-	close(fds.outfile);
+	if (fds.infile >= 0)
+		close(fds.infile);
+	if (fds.outfile >= 0)
+		close(fds.outfile);
 	if (fds.ishdoc && flag >= (fds.n_cmds - 1))
 		unlink("here_doc");
 }
