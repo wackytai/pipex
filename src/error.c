@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gacorrei <gacorrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:22:56 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/22 10:18:11 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/22 12:45:04 by gacorrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,9 @@ int	command_error(char *str)
 {
 	char	*str1;
 
-	str1 = ft_strjoin("Command not found: ", str);
+	str1 = ft_strjoin(str, ": command not found");
 	ft_putendl_fd(str1, STDERR_FILENO);
 	free(str1);
-	if (str[0] != 0)
-		ft_printf("Please ask your administrator.\n");
 	return (4);
 }
 

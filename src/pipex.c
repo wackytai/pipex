@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gacorrei <gacorrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/22 10:51:13 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/22 12:50:11 by gacorrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,13 @@ int	check_outfile(int argc, char **argv, t_fd *fds)
 
 int	check_infile(char *argv, t_fd *fds)
 {
-	if (access(argv, F_OK) != 0)
-		return (file_error(fds));
-	if (access(argv, R_OK) == 0)
+	if (access(argv, F_OK & R_OK) == 0)
 		fds->infile = open(argv, O_RDONLY);
 	else
-		return (file_error(fds));
+	{
+		fds->infile = -1;
+		perror("Error: can't open infile");
+	}
 	return (0);
 }
 
