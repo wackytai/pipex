@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gacorrei <gacorrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/22 10:20:53 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/22 13:21:06 by gacorrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	check_infile(char **argv, t_fd *fds)
 		here_doc(fd_hd, argv[2]);
 		close(fd_hd);
 	}
-	if (access(argv[1], F_OK | R_OK) != 0)
+	if (access(argv[1], F_OK & R_OK) != 0)
 		perror("Error");
 	fds->infile = open(argv[1], O_RDONLY);
 	return (0);
@@ -80,7 +80,7 @@ int	create_process(char **argv, t_fd *fds, char **envp)
 	while (++i < fds->n_cmds)
 	{
 		fds->cmd = argv[i + 2 + fds->ishdoc];
-		if (fds->infile < 0 || fds->cmd == 0)
+		if ((fds->infile < 0 && !i) || fds->cmd == 0)
 			continue ;
 		fds->pid[i] = fork_processes(fds->pid[i], fds);
 		if (!fds->pid[i])
