@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/22 13:47:03 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/23 09:34:01 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	check_outfile(int argc, char **argv, t_fd *fds)
 
 int	check_infile(char *argv, t_fd *fds)
 {
-	if (access(argv, F_OK & R_OK) == 0)
+	if (access(argv, R_OK | F_OK) == 0)
 		fds->infile = open(argv, O_RDONLY);
 	else
 	{
@@ -80,8 +80,10 @@ int	fork_process(t_fd *fds, char **paths, char *argv, char **envp)
 
 int	dup_failed(t_fd *fds, char **paths)
 {
-	close(fds->infile);
-	close(fds->outfile);
+	if (fds->infile >= 0)
+		close(fds->infile);
+	if (fds->outfile >= 0)
+		close(fds->outfile);
 	close(fds->pipefd[0]);
 	close(fds->pipefd[1]);
 	free_array(paths);

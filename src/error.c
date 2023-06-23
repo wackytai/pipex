@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:22:56 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/22 13:40:34 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/23 09:25:51 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,10 @@ int	process_error(int flag, t_fd *fds)
 		perror("Pipe failed");
 	else
 		perror("Fork failed");
-	close(fds->infile);
-	close(fds->outfile);
+	if (fds->infile >= 0)
+		close(fds->infile);
+	if (fds->outfile >= 0)
+		close(fds->outfile);
 	close(fds->fds[0]);
 	close(fds->fds[1]);
 	exit(1);
@@ -55,8 +57,10 @@ void	close_and_wait(int pid, int pid1, t_fd *fds)
 {
 	close(fds->pipefd[0]);
 	close(fds->pipefd[1]);
-	close(fds->infile);
-	close(fds->outfile);
+	if (fds->infile >= 0)
+		close(fds->infile);
+	if (fds->outfile >= 0)
+		close(fds->outfile);
 	waitpid(pid, NULL, 0);
 	waitpid(pid1, NULL, 0);
 }

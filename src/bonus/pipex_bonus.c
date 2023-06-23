@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/22 13:40:45 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/23 09:40:05 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	check_infile(char **argv, t_fd *fds)
 		here_doc(fd_hd, argv[2]);
 		close(fd_hd);
 	}
-	if (access(argv[1], F_OK & R_OK) != 0)
+	if (access(argv[1], F_OK | R_OK) != 0)
 		perror("Error");
 	fds->infile = open(argv[1], O_RDONLY);
 	return (0);
