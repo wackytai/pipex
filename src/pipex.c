@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/23 09:34:01 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/27 08:46:31 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char **argv, char **envp)
 	fds.infile = -1;
 	fds.fds[0] = -1;
 	fds.fds[1] = -1;
-	if (argc < 5)
+	if (argc != 5)
 		return (args_error());
 	check_infile(argv[1], &fds);
 	if (check_outfile(argc, argv, &fds) == 0)

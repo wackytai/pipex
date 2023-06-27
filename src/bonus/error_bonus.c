@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:22:56 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/22 13:42:02 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/27 08:50:50 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	file_error(t_fd fds)
 
 int	args_error(void)
 {
-	ft_putendl_fd("usage: ./pipex infile cmd1 cmd2 outfile", STDERR_FILENO);
+	ft_putendl_fd("usage: ./pipex infile cmd1 ... cmdN outfile", STDERR_FILENO);
 	exit(1);
 }
 
