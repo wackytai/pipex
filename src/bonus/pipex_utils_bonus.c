@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:36:34 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/28 09:20:13 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/29 14:09:02 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,6 @@ void	wait_processes(t_fd *fds)
 	i = -1;
 	while (++i < fds->n_cmds)
 		waitpid(fds->pid[i], NULL, 0);
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
-	close(STDERR_FILENO);
 	return ;
 }
 

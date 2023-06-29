@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:22:56 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/28 09:31:52 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/06/29 14:08:45 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	command_error(t_cmds *cmd, char *argv, int flag, t_fd *fds)
 	close_files(*fds, flag);
 	close(fds->fds[0]);
 	close(fds->fds[1]);
-	close(STDERR_FILENO);
 	free_all(cmd->cmd_args, fds->pipefd, fds->pid);
 	free_all(fds->paths, 0, 0);
 	exit(1);
@@ -53,9 +52,6 @@ int	process_error(int flag)
 		perror("Pipe failed");
 	else
 		perror("Fork failed");
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
-	close(STDERR_FILENO);
 	exit(1);
 }
 
