@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:03:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/27 08:46:31 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/07/04 09:14:15 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ int	fork_process(t_fd *fds, char **paths, char *argv, char **envp)
 	if (pid == 0)
 	{
 		update_pipes(fds, 1);
+		if (fds->fds[0] < 0 || fds->fds[1] < 0)
+			dup_failed(fds, paths);
 		handle_cmd(fds, paths, argv, envp);
 	}
 	return (pid);
@@ -84,8 +86,7 @@ int	dup_failed(t_fd *fds, char **paths)
 		close(fds->infile);
 	if (fds->outfile >= 0)
 		close(fds->outfile);
-	close(fds->pipefd[0]);
-	close(fds->pipefd[1]);
+	close_pipe(fds);
 	free_array(paths);
 	exit (1);
 }

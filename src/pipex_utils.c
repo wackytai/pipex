@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:36:34 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/22 13:45:59 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/07/04 11:07:27 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,20 @@ int	handle_cmd(t_fd *fds, char **paths, char *argv, char **envp)
 	get_cmd_fullname(&cmds, paths, argv);
 	if (cmds->cmd_path == 0)
 	{
-		close(fds->infile);
-		close(fds->outfile);
-		close(fds->fds[0]);
-		close(fds->fds[1]);
+		if (fds->infile >= 0)
+			close(fds->infile);
+		if (fds->outfile >= 0)
+			close(fds->outfile);
 		free_cmds(cmds->cmd_args, cmds->cmd_path);
 		free(cmds);
 		return (1);
 	}
 	if (execve(cmds->cmd_path, cmds->cmd_args, envp) < 0)
 		perror("execve failed: ");
-	close(fds->infile);
-	close(fds->outfile);
+	if (fds->infile >= 0)
+		close(fds->infile);
+	if (fds->outfile >= 0)
+		close(fds->outfile);
 	free_cmds(cmds->cmd_args, cmds->cmd_path);
 	free(cmds);
 	return (0);
@@ -102,7 +104,6 @@ void	update_pipes(t_fd *fds, int flag)
 			return ;
 		}
 	}
-	close(fds->pipefd[0]);
-	close(fds->pipefd[1]);
+	close_pipe(fds);
 	return ;
 }

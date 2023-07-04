@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 09:44:30 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/22 13:45:24 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/07/04 09:52:28 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ void	get_cmd_fullname(t_cmds **cmds, char **paths, char *argv)
 
 int	close_pipe(t_fd *fds)
 {
-	close(fds->pipefd[0]);
-	close(fds->pipefd[1]);
+	if (fds->pipefd[0] >= 0)
+		close(fds->pipefd[0]);
+	if (fds->pipefd[1] >= 0)
+		close(fds->pipefd[1]);
 	return (1);
 }

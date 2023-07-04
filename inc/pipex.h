@@ -6,7 +6,7 @@
 /*   By: tlemos-m <tlemos-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:07:14 by tlemos-m          #+#    #+#             */
-/*   Updated: 2023/06/22 13:44:35 by tlemos-m         ###   ########.fr       */
+/*   Updated: 2023/07/03 12:46:21 by tlemos-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define PIPEX_H
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdlib.h>
 # include <stdio.h>
 # include <string.h>
 # include <sys/types.h>
